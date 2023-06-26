@@ -33,12 +33,36 @@ app.use((req, res, next) => {
     console.log(`${req.method} ${req.url} ${delta}ms`);
 });
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
 });
 
 app.get('/friends', (req, res) => {
-    res.send(friends)
+    res.json(friends)
+});
+
+app.get('/friends/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const friend = friends.find((friend) => friend.id === id);
+    if (!friend) {
+        return res.status(404).send('Friend not found');
+    }
+    res.json(friend);
+});
+
+app.post('/friends', (req, res) => {
+    if (!req.body.name) {
+        return res.status(400).send('Name is required');
+    }
+
+    const newFriend = {
+        id: friends.length + 1,
+        name: req.body.name,
+    };
+    friends.push(newFriend);
+    res.json(newFriend);
 });
 
 app.listen(port, () => {
