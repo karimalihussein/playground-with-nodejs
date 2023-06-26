@@ -1,27 +1,10 @@
-const { parse } = require('csv-parse');
-const fs = require('fs');
+const http = require('http');
+const PORT = 3000;
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'HI From Json' }));
+});
 
-const results = [];
-
-function isHabitablePlanet(planet){
-    return planet['koi_disposition'] === 'CONFIRMED' && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11 && planet['koi_prad'] < 1.6
-}
-
-fs.createReadStream('data.csv')
-.pipe(parse({
-    comment: '#',
-    columns: true,
-    // skip_empty_lines: true,
-    // delimiter: ';'
-}))
-.on('data', (data) => {
-    if(isHabitablePlanet(data)){
-        results.push(data);
-    }
-})
-.on('error', (err) => {
-    console.log(err);
-})
-.on('end', () => {
-    console.log(`${results.length} habitable planets found!`);
+server.listen(PORT, () => {
+    console.log(`Server running at port ${PORT}`);
 });
