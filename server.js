@@ -1,6 +1,6 @@
 const express = require('express');
-const friendsController = require('./controllers/friendsController');
-const messagesController = require('./controllers/messagesController');
+const friendsRouter = require('./routes/friends');
+const messagesRouter = require('./routes/messages');
 const app = express();
 const port = 3000;
 
@@ -18,12 +18,14 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 });
 
-app.get('/friends', friendsController.getFriends);
-app.get('/friends/:id', friendsController.getFriend);
-app.post('/friends', friendsController.postFriend);
-app.get('/messages', messagesController.getMessages);
+
+app.use('/friends', friendsRouter);
+app.use('/messages', messagesRouter);
+
+
 
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 }); 
+

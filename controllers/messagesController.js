@@ -6,4 +6,8 @@ function postMessage(req, res) {
     console.log('Storing message....');
 }
 
-module.exports = {getMessages, postMessage}
+function getMessage(req, res) {
+    console.log('Getting message....');
+}
+
+module.exports = {getMessages, postMessage, getMessage}
