@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cluster = require('cluster');
 const port = 3000;
+const os = require('os');
 
 function delay(duration) {
     const start = Date.now();
@@ -21,8 +22,10 @@ app.get('/timer', (req, res) => {
 console.log('Running server.js..')
 if(cluster.isMaster) {
     console.log(`Master ${process.pid} is running`);
-    cluster.fork();
-    cluster.fork();
+    const NUM_workers = os.cpus().length;
+    for (let i = 0; i < NUM_workers; i++) {
+        cluster.fork();
+    }
 } else {
     console.log(`Worker ${process.pid} is running`);
     app.listen(port);
