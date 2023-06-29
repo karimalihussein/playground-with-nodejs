@@ -47,7 +47,6 @@ describe("Test POST /launches", () => {
     expect(response.body).toStrictEqual({
       error: "Missing required launch property",
     });
-    
   });
 
   test("It should catch invalid dates", async () => {
@@ -67,11 +66,4 @@ describe("Test POST /launches", () => {
       error: "Invalid launch date",
     });
   });
-
-
 });
-
-
-
-
-
