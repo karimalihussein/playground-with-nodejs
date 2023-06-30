@@ -35,3 +35,38 @@ NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. NodeJs us
 
 - Note: It's worth noting that the lifecycle of a Node.js program can be more complex when you introduce frameworks, libraries, and other modules. They may have their own lifecycle and events specific to their functionality. However, the basic concepts of the Node.js program lifecycle outlined above remain consistent.
 
+## Type of Errors
+
+- Syntax Errors: Syntax errors occur when you write invalid JavaScript code. For example, you may have forgotten to close a bracket or misspelled a keyword. Syntax errors are detected by the JavaScript engine when it parses your code. They prevent the code from running and are usually easy to fix.
+
+- Runtime Errors: Runtime errors occur when your program is running. They are also called exceptions because they indicate that something exceptional (and bad) has happened. For example, you may have tried to access a property of an undefined variable, or called a function that doesn't exist. Runtime errors are detected by the JavaScript engine as it executes your code. They cause the program to terminate abruptly and are usually harder to fix.
+
+- Logical Errors: Logical errors occur when your program is running. They are caused by a flaw in the logic of your code. For example, you may have written a condition that is always true or a loop that never ends. Logical errors are not detected by the JavaScript engine. They cause the program to run incorrectly and are the hardest to fix.
+
+
+## Express Js
+- Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+- Express provides a thin layer of fundamental web application features, without obscuring Node.js features that you know and love.
+- Express is a fast, unopinionated, minimalist web framework for Node.js.
+
+## Why Express Js?
+- Server Logic: Express provides a simple API to build server-side logic. It allows you to define routes, access parameters, handle requests and responses, and perform custom logic. You can also use it to serve static files and handle errors and exceptions.
+
+- Middleware: Express provides a robust set of built-in middleware and third-party middleware to perform additional tasks. For example, you can use middleware to serve static files, compress HTTP responses, set HTTP headers, and more.
+
+- Database Integration: Express doesn't provide any database integration out of the box. However, you can easily integrate any database with your Express application using third-party Node.js libraries.
+
+- Routing: Express provides a simple API to define routes. You can use it to perform different actions based on HTTP method and URL. For example, you can use it to perform CRUD operations on a database.
+
+- Templating: Express doesn't provide any templating engine out of the box. However, you can easily integrate any templating engine with your Express application using third-party Node.js libraries.
+
+
+ ### Frameworks Like Express
+ 1 - Koa: Koa is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. It's a successor to Express.js and is widely used by the Node.js community.
+
+ 2 - Vanilla Node.js: Vanilla Node.js is a term used to refer to the core Node.js runtime without any third-party libraries or frameworks. It's a great way to learn Node.js and understand how it works under the hood.
+ 
+ 3 - AdonisJs: AdonisJs is a Node.js web framework with a breath of fresh air and drizzle of elegant syntax on top of it. It offers a stable ecosystem to write server-side web applications so you can focus on business needs over finalizing which package to choose or not.
+
+
+ 
