@@ -69,4 +69,13 @@ NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. NodeJs us
  3 - AdonisJs: AdonisJs is a Node.js web framework with a breath of fresh air and drizzle of elegant syntax on top of it. It offers a stable ecosystem to write server-side web applications so you can focus on business needs over finalizing which package to choose or not.
 
 
+ ## Middleware
  
+ - Middleware is a function that has access to the request and response objects. It can execute any code, transform the request object, or return a response. It can also end the request-response cycle. If the current middleware function does not end the request-response cycle, it must call the next() function to pass control to the next middleware function. Otherwise, the request will be left hanging.
+
+ ### How Middleware Works?
+
+ - Middleware functions are executed sequentially, in the order they are registered. The first middleware function is executed first, followed by the second, and so on. If a middleware function ends the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
+
+ - Note: Middleware functions are executed in the order they are registered. However, you can change the order of execution by changing the order of middleware registrations.
+
