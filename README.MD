@@ -88,4 +88,18 @@ NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. NodeJs us
 - Some popular templating engines for Express include Pug, EJS, and Handlebars.
 
 
+# MVC: Model View Controller
+
+- MVC is a software design pattern that divides an application into three interconnected parts: the model, the view, and the controller. Each part is responsible for a specific aspect of the application.
+
+- The model is responsible for managing the data of the application. It receives user input from the controller.
+
+- The view is responsible for displaying the data provided by the model in a specific format. It also receives user input from the controller.
+
+- The controller is responsible for handling user requests and providing data to the view or the model.
+
+- MVC is one of the most frequently used industry-standard web development framework to create scalable and extensible projects.
+
+- MVC helps to achieve separation of concerns. It divides the application into three interconnected parts so that modifications in one part do not affect the other parts. This allows you to reuse the code across different parts of the application.
+
 
