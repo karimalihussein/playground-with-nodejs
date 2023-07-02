@@ -5,7 +5,8 @@ const path = require('path');
 const products = [];
 
 router.get('/products/create', (req, res) => {
-    res.sendFile(path.join(rootDir, 'views/products', 'create.view.html'));
+    // res.sendFile(path.join(rootDir, 'views/products', 'create.view.html'));
+    res.render('products/create', {title: 'Create a new product'});
 });
  
 router.post('/products', (req, res) => {
@@ -17,7 +18,7 @@ router.get('/', (req, res) => {
 });
 
 router.use((req, res, next) => {
-    res.status(404).sendFile(path.join(rootDir, 'views/products', '404.view.html'));
+    res.status(404).render('products/404', {title: 'Page not found'});
 });
 
 
