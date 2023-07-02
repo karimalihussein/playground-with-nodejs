@@ -1,12 +1,16 @@
-const http = require('http');
+const path = require('path');
 const express = require('express');
-const adminRoutes = require('./routes/admin');
 const app = express();
+const rootDir = require('./util/path');
+
+
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+const adminRoutes = require('./routes/admin');
 app.use(adminRoutes);
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello from Express!</h1>');
-});
+
 
 app.listen(3000);
