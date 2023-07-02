@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 const adminRoutes = require('./routes/admin');
-app.use(adminRoutes);
+app.use(adminRoutes.routes);
 
 
 

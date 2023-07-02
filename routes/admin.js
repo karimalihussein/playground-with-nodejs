@@ -2,18 +2,19 @@ const express = require('express');
 const router = express.Router();
 const rootDir = require('../util/path');
 const path = require('path');
-// add products
+const products = [];
 
 router.get('/products/create', (req, res) => {
     res.sendFile(path.join(rootDir, 'views/products', 'create.view.html'));
 });
-
+ 
 router.post('/products', (req, res) => {
-    console.log(req.body);
+    products.push({ title: req.body.title });
     res.redirect('/');
 });
 router.get('/', (req, res) => {
-    res.sendFile(path.join(rootDir, 'views/products', 'index.view.html'));
+    res.json(products);
+    // res.sendFile(path.join(rootDir, 'views/products', 'index.view.html'));
 });
 
 router.use((req, res, next) => {
@@ -21,4 +22,5 @@ router.use((req, res, next) => {
 });
 
 
-module.exports = router;
+exports.routes = router;
+exports.products = products;
