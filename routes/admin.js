@@ -13,8 +13,7 @@ router.post('/products', (req, res) => {
     res.redirect('/');
 });
 router.get('/', (req, res) => {
-    res.json(products);
-    // res.sendFile(path.join(rootDir, 'views/products', 'index.view.html'));
+    res.render('products/index', { products, title: 'Shop' });
 });
 
 router.use((req, res, next) => {

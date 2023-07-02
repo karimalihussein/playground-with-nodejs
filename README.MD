@@ -79,5 +79,13 @@ NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine. NodeJs us
 
  - Note: Middleware functions are executed in the order they are registered. However, you can change the order of execution by changing the order of middleware registrations.
 
+## Templating Middle
+
+- Templating engines allow you to define templates for your web application. They can generate HTML pages dynamically based on some data, such as a database record or user input. Templating engines also allow you to define layouts and partial views that can be reused across multiple pages.
+
+- Express doesn't provide any templating engine out of the box. However, you can easily integrate any templating engine with your Express application using third-party Node.js libraries.
+
+- Some popular templating engines for Express include Pug, EJS, and Handlebars.
+
 
 
