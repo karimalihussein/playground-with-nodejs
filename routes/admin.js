@@ -6,7 +6,7 @@ const products = [];
 
 router.get('/products/create', (req, res) => {
     // res.sendFile(path.join(rootDir, 'views/products', 'create.view.html'));
-    res.render('products/create', {title: 'Create a new product'});
+    res.render('products/create', {title: 'Create a new product', path: '/products/create'});
 });
  
 router.post('/products', (req, res) => {
@@ -14,7 +14,7 @@ router.post('/products', (req, res) => {
     res.redirect('/');
 });
 router.get('/', (req, res) => {
-    res.render('products/index', { products, title: 'Shop' });
+    res.render('products/index', { products, title: 'Shop', path: '/'});
 });
 
 router.use((req, res, next) => {
