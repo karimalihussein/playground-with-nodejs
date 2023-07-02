@@ -4,8 +4,8 @@ const app = express();
 const rootDir = require('./util/path');
 const ErorController = require('./controllers/ErrorController');
 
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
 
 
