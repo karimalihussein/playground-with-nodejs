@@ -14,3 +14,9 @@ exports.postAddProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
     res.render('products/index', { products: ProductModel.fetchAll(), title: 'Shop', path: '/' });
 };
+
+exports.getEditProduct = (req, res, next) => {
+    const productId = req.params.productId;
+    const product = ProductModel.findById(productId);
+    res.render('products/edit', { product: product, pageTitle: 'Edit Product', path: '/products' });
+};
