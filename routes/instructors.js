@@ -1,44 +1,7 @@
 const express = require("express");
 const Joi = require("joi");
 const router = express.Router();
-
-const instructors = [
-  {
-    id: 1,
-    name: "Maximilian Schwarzmüller",
-    description:
-      "Maximilian Schwarzmüller is a Professional Web Developer and Instructor who currently lives in Germany.",
-  },
-  {
-    id: 2,
-    name: "Jonas Schmedtmann",
-    description:
-      "Jonas Schmedtmann is a full-stack web developer, designer, and teacher.",
-  },
-  {
-    id: 3,
-    name: "Brad Traversy",
-    description:
-      "Brad Traversy is a full stack web developer specializing in modern JavaScript.",
-  },
-  {
-    id: 4,
-    name: "Stephen Grider",
-    description:
-      "Stephen Grider has been building complex Javascript front ends for top corporations in the San Francisco Bay Area.",
-  },
-  {
-    id: 5,
-    name: "Andrew Mead",
-    description: "Andrew Mead is a full-stack developer from Philadelphia.",
-  },
-  {
-    id: 6,
-    name: "Mosh Hamedani",
-    description:
-      "Mosh (Moshfegh) Hamedani is a passionate and pragmatic software engineer specializing in web application development with ASP.NET MVC, Web API, Entity Framework, Angular, Backbone, HTML5, and CSS.",
-  },
-];
+const { Instructor } = require("../models/Instructor");
 
 /**
  * @desc: Get all instructors
@@ -48,8 +11,14 @@ const instructors = [
  * @return: instructors
  * @method: GET
  */
-router.get("/", (req, res) => {
-  res.send(instructors);
+router.get("/", async (req, res) => {
+  try {
+    const instructors = await Instructor.find();
+    res.status(200).json(instructors);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Something went wrong" });
+  }
 });
 
 /**
@@ -60,11 +29,14 @@ router.get("/", (req, res) => {
  * @return: instructor
  * @method: GET
  */
-router.get("/:id", (req, res) => {
-  const instructor = instructors.find((i) => i.id === parseInt(req.params.id));
-  if (!instructor)
-    res.status(404).send("The instructor with the given ID was not found.");
-  res.send(instructor);
+router.get("/:id", async (req, res) => {
+  try {
+    const instructor = await Instructor.findById(req.params.id);
+    res.status(200).json(instructor);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Something went wrong" });
+  }
 });
 
 /**
@@ -76,19 +48,27 @@ router.get("/:id", (req, res) => {
  * @method: POST
  * @body: name, description
  */
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { error } = validateStoreInstructor(req.body);
   if (error) {
     res.status(400).send(error.details[0].message);
     return;
   }
-  const instructor = {
-    id: instructors.length + 1,
-    name: req.body?.name,
-    description: req.body?.description,
-  };
-  instructors.push(instructor);
-  res.send(instructor);
+
+  try {
+    const newInstructor = new Instructor({
+      firstName: req.body?.firstName,
+      lastName: req.body?.lastName,
+      role: req.body?.role,
+      email: req.body?.email,
+      image: req.body?.image,
+    });
+    const response = await newInstructor.save();
+    res.status(201).send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Something went wrong" });
+  }
 });
 
 /**
@@ -100,20 +80,36 @@ router.post("/", (req, res) => {
  * @method: PUT
  * @body: name, description
  */
-router.put("/:id", (req, res) => {
-  const instructor = instructors.find((i) => i.id === parseInt(req.params.id));
-  if (!instructor)
-    res.status(404).send("The instructor with the given ID was not found.");
-
+router.put("/:id", async (req, res) => {
   const { error } = validateUpdateInstructor(req.body);
   if (error) {
     res.status(400).send(error.details[0].message);
     return;
   }
 
-  instructor.name = req.body?.name;
-  instructor.description = req.body?.description;
-  res.send(instructor);
+  try {
+    const instructor = await Instructor.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          firstName: req.body?.firstName,
+          lastName: req.body?.lastName,
+          role: req.body?.role,
+          email: req.body?.email,
+          image: req.body?.image,
+        },
+      },
+      { new: true }
+    );
+    if (!instructor) {
+      res.status(404).send("The instructor with the given ID was not found.");
+      return;
+    }
+    res.send(instructor);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Something went wrong" });
+  }
 });
 
 /**
@@ -124,29 +120,39 @@ router.put("/:id", (req, res) => {
  * @return: instructor
  * @method: DELETE
  */
-router.delete("/:id", (req, res) => {
-  const instructor = instructors.find((i) => i.id === parseInt(req.params.id));
-  if (!instructor)
-    res.status(404).send("The instructor with the given ID was not found.");
-
-  const index = instructors.indexOf(instructor);
-  instructors.splice(index, 1);
-
-  res.send(instructor);
+router.delete("/:id", async (req, res) => {
+  try {
+    const instructor = await Instructor.findByIdAndDelete(req.params.id);
+    if (!instructor) {
+      res.status(404).send("The instructor with the given ID was not found.");
+      return;
+    }
+    res.send(instructor);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Something went wrong" });
+  }
+ 
 });
 
 function validateStoreInstructor(instructor) {
   const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-    description: Joi.string().min(3).required(),
+    firstName: Joi.string().min(3).required(),
+    lastName: Joi.string().min(3).required(),
+    role: Joi.string().min(3).required(),
+    email: Joi.string().min(3).required(),
+    image: Joi.string().min(3),
   });
   return schema.validate(instructor);
 }
 
 function validateUpdateInstructor(instructor) {
   const schema = Joi.object({
-    name: Joi.string().min(3),
-    description: Joi.string().min(3),
+    firstName: Joi.string().min(3),
+    lastName: Joi.string().min(3),
+    role: Joi.string().min(3),
+    email: Joi.string().min(3),
+    image: Joi.string().min(3),
   });
   return schema.validate(instructor);
 }
