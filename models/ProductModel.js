@@ -43,5 +43,15 @@ module.exports = class Product {
           cb(JSON.parse(fileContent));
         });
       }
+
+    static fetchJsonAll() {
+        const p = path.join(path.dirname(process.mainModule.filename), 'data', 'products.json');
+        fs.readFile(p, (err, fileContent) => {
+            if (err) {
+                return [];
+            }
+            return JSON.parse(fileContent);
+        });
+    }
 }
 
