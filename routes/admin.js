@@ -3,11 +3,11 @@ const router = express.Router();
 const rootDir = require('../util/path');
 const path = require('path');
 const products = [];
-const productsController = require('../controllers/ProductsController');
+const AdminController = require('../controllers/ProductsController');
 
-router.get('/products/create', productsController.getAddProduct);
-router.post('/products', productsController.postAddProduct);
-router.get('/products', productsController.getProducts);
+router.get('/products/create', AdminController.getAddProduct);
+router.post('/products', AdminController.postAddProduct);
+router.get('/products', AdminController.getProducts);
 
 
 
