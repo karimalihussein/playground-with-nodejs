@@ -4,7 +4,8 @@ const courses = require('./routes/courses');
 const instructors = require('./routes/instructors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const logger = require('./middlewares/logger');
+const logger = require('./middlewares/LoggerMiddleware');
+const ErrorsMiddleware = require('./middlewares/ErrorsMiddleware');
 
 dotenv.config();
 
@@ -15,15 +16,8 @@ app.use(express.json());
 app.use(logger);
 app.use('/api/courses', courses);
 app.use('/api/instructors', instructors);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-    res.status(statusCode).json({
-        message: err.message,
-        stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
-    });
-});
+app.use(ErrorsMiddleware.notFound);
+app.use(ErrorsMiddleware.errorHandler);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
