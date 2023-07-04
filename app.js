@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const logger = require('./middlewares/LoggerMiddleware');
 const ErrorsMiddleware = require('./middlewares/ErrorsMiddleware');
+const auth = require('./routes/auth');
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(logger);
 app.use('/api/courses', courses);
 app.use('/api/instructors', instructors);
+app.use('/api/auth', auth)
 app.use(ErrorsMiddleware.notFound);
 app.use(ErrorsMiddleware.errorHandler);
 
