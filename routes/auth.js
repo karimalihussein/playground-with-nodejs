@@ -35,5 +35,23 @@ router.post('/register', asyncHandler(async (req, res) => {
     res.send({data, token});
 }));
 
+/**
+ * @desc:   Login a user
+ * @route:  POST /api/auth/login
+ * @access: Public
+ * @method: POST
+ */
+router.post('/login', asyncHandler(async (req, res) => {
+    const { error } = validateLogin(req.body);
+    if (error) return res.status(400).json({ message: error.details[0].message });
+    let user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(400).json({ message: 'Invalid email Address' });
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) return res.status(400).json({ message: 'Invalid password, please try again later' });
+    const token = null;
+    const {password, ...data} = user._doc;
+    res.send({data, token});
+}));
+
 
 module.exports = router;
