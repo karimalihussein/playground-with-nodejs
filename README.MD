@@ -114,7 +114,7 @@ winston.error('This is an error message.');
 - Overall, auditing in Node.js helps organizations maintain security, compliance, and accountability by capturing and analyzing system activities and events, providing valuable insights into the behavior and usage of the application.
 
 
-### 3.2 Type Of Auditing <a name="type-of-auditing"></a>
+### 3.2 Type Of Auditing <a name="types-of-auditing"></a>
 1. Provides basic information to backtrace the entire trial of events to its origin.
 2. Includes User Activity, access to data, login attempts, admininstor, activities or automated system activities.
 3. audit records contain elments defined by the company which includes:
