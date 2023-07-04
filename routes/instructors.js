@@ -24,7 +24,9 @@ const {
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const instructors = await Instructor.find();
+    const page = Number(req.query.pageNumber) || 1;
+    const petPage = Number(req.query.petPageNumber) || 10;
+    const instructors = await Instructor.find().limit(petPage).skip(petPage * (page - 1));
     res.status(200).json(instructors);
   })
 );
