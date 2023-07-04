@@ -1,8 +1,19 @@
 const { Instructor } = require("../models/Instructor");
 const asyncHandler = require("express-async-handler");
 const { validateStoreInstructor, validateUpdateInstructor } = require("../validations/InstructorValidation");
+const LoggerService = require("../services/LoggerService");
+const logger = new LoggerService('instructor controller');
+
+
 
 const getAllInstructors = asyncHandler(async (req, res) => {
+    logger.setLogData({
+        route: req.originalUrl,
+        body: req.body,
+        query: req.query,
+        params: req.params,
+    });
+    await logger.info();
     const page = Number(req.query.pageNumber) || 1;
     const petPage = Number(req.query.petPageNumber) || 10;
     const instructors = await Instructor.find().limit(petPage).skip(petPage * (page - 1));
