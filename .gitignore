@@ -3,3 +3,4 @@
 hello.js
 /node_modules/
 package-lock.json
+.env
