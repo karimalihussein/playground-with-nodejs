@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { Instructor } = require("../models/Instructor");
+const {
+  Instructor
+} = require("../models/Instructor");
 const asyncHandler = require("express-async-handler");
 const {
   validateStoreInstructor,
@@ -55,7 +57,9 @@ router.get(
 router.post(
   "/",
   asyncHandler(async (req, res) => {
-    const { error } = validateStoreInstructor(req.body);
+    const {
+      error
+    } = validateStoreInstructor(req.body);
     if (error) {
       res.status(400).send(error.details[0].message);
       return;
@@ -84,23 +88,25 @@ router.post(
 router.put(
   "/:id",
   asyncHandler(async (req, res) => {
-    const { error } = validateUpdateInstructor(req.body);
+    const {
+      error
+    } = validateUpdateInstructor(req.body);
     if (error) {
       res.status(400).send(error.details[0].message);
       return;
     }
     const instructor = await Instructor.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: {
-          firstName: req.body?.firstName,
-          lastName: req.body?.lastName,
-          role: req.body?.role,
-          email: req.body?.email,
-          image: req.body?.image,
-        },
+      req.params.id, {
+      $set: {
+        firstName: req.body?.firstName,
+        lastName: req.body?.lastName,
+        role: req.body?.role,
+        email: req.body?.email,
+        image: req.body?.image,
       },
-      { new: true }
+    }, {
+      new: true
+    }
     );
     if (!instructor) {
       res.status(404).send("The instructor with the given ID was not found.");

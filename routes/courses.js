@@ -1,34 +1,45 @@
 const express = require("express");
 const Joi = require("joi");
 const router = express.Router();
+const {
+  validateStore,
+  validateUpdate,
+} = require("../validations/CourseValidation");
+const asyncHandler = require("express-async-handler");
+const { Course } = require("../models/Course");
 
 const courses = [
   {
     id: 1,
     name: "Javascript Course From Zero to Hero",
-    description : "This course is for beginners who want to learn javascript from scratch",
-    price : 100,
-    duration : "2 months",
-    instructor : "John Doe",
-    rating : 4.5,
-    category : "Programming",
-  }, {
+    description:
+      "This course is for beginners who want to learn javascript from scratch",
+    price: 100,
+    duration: "2 months",
+    instructor: "John Doe",
+    rating: 4.5,
+    category: "Programming",
+  },
+  {
     id: 2,
     name: "Python Course From Zero to Hero",
-    description : "This course is for beginners who want to learn python from scratch",
-    price : 140,
-    duration : "3 months",
-    instructor : "Maxmillian Schwarzmuller",
-    rating : 4.8,
-    category : "Programming",
-  }, {
+    description:
+      "This course is for beginners who want to learn python from scratch",
+    price: 140,
+    duration: "3 months",
+    instructor: "Maxmillian Schwarzmuller",
+    rating: 4.8,
+    category: "Programming",
+  },
+  {
     id: 3,
     name: "React Course From Zero to Hero",
-    description : "This course is for beginners who want to learn react from scratch",
-    price : 120,
-    duration : "1 months",
-    instructor : "John Doe",
-  }
+    description:
+      "This course is for beginners who want to learn react from scratch",
+    price: 120,
+    duration: "1 months",
+    instructor: "John Doe",
+  },
 ];
 
 /**
@@ -39,9 +50,13 @@ const courses = [
  * @return: courses
  * @method: GET
  */
-router.get("/", (req, res) => {
-  res.send(courses);
-});
+router.get(
+  "/",
+  asyncHandler(async (req, res) => {
+    const courses = await Course.find();
+    res.status(200).json(courses);
+  })
+);
 
 /**
  * @desc: Get a course by id
@@ -51,13 +66,17 @@ router.get("/", (req, res) => {
  * @return: course
  * @method: GET
  */
-router.get("/:id", (req, res) => {
-  const course = courses.find((c) => c.id === parseInt(req.params.id));
-  if (!course)
-    res.status(404).send("The course with the given ID was not found.");
-  res.send(course);
-});
-
+router.get(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const course = await Course.findById(req.params.id);
+    if (!course) {
+      res.status(404).send("The course with the given ID was not found.");
+      return;
+    }
+    res.status(200).json(course);
+  })
+);
 
 /**
  * @desc: Create a course
@@ -67,27 +86,30 @@ router.get("/:id", (req, res) => {
  * @return: course
  * @method: POST
  */
-router.post("/", (req, res) => {
-  const { error } = validateStoreCourse(req.body);
-  if (error) {
-    res.status(400).send(error.details[0].message);
-    return;
-  }
+router.post(
+  "/",
+  asyncHandler(async (req, res) => {
+    const { error } = validateStore(req.body);
+    if (error) {
+      res.status(400).send(error.details[0].message);
+      return;
+    }
+    const course = new Course({
+      name: req.body?.name,
+      description: req.body?.description,
+      price: req.body?.price,
+      duration: req.body?.duration,
+      instructor: req.body?.instructor,
+      rating: req.body?.rating,
+      category: req.body?.category,
+      type: req.body?.type,
+      image: req.body?.image,
+    });
 
-  const course = {
-    id: courses.length + 1,
-    name: req.body?.name,
-    description: req.body?.description,
-    price: req.body?.price,
-    duration: req.body?.duration,
-    instructor: req.body?.instructor,
-    rating: req.body?.rating,
-    category: req.body?.category,
-  };
-
-  courses.push(course);
-  res.send(course);
-});
+    const createdCourse = await course.save();
+    res.status(201).json(createdCourse);
+  })
+);
 
 /**
  * @desc: Update a course
@@ -97,16 +119,30 @@ router.post("/", (req, res) => {
  * @return: course
  * @method: PUT
  */
-router.put("/:id", (req, res) => {
-    const course = courses.find((c) => c.id === parseInt(req.params.id));
-    if (!course) { res.status(404).send("The course with the given ID was not found."); return; }
-    const { error } = validateUpdateCourse(req.body);
+router.put(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const { error } = validateUpdate(req.body);
     if (error) {
-        res.status(400).send(error.details[0].message);
-        return;
+      res.status(400).send(error.details[0].message);
+      return;
     }
-    // only update the properties that are sent
-});
+    const course = await Course.findByIdAndUpdate(
+      req.params.id,
+      $.set({
+        name: req.body?.name,
+        description: req.body?.description,
+        price: req.body?.price,
+        duration: req.body?.duration,
+        instructor: req.body?.instructor,
+        rating: req.body?.rating,
+        category: req.body?.category,
+        type: req.body?.type,
+        image: req.body?.image,
+      })
+    );
+  })
+);
 
 /**
  * @desc: Delete a course
@@ -116,38 +152,16 @@ router.put("/:id", (req, res) => {
  * @return: course
  * @method: DELETE
  */
-router.delete("/:id", (req, res) => {
-    const course = courses.find((c) => c.id === parseInt(req.params.id));
-    if (!course) { res.status(404).send("The course with the given ID was not found."); return; }
-    const index = courses.indexOf(course);
-    courses.splice(index, 1);
-    res.send(course);
-});
-
-function validateStoreCourse(course) {
-  const shcema = Joi.object({
-    name: Joi.string().min(3).required(),
-    description: Joi.string().min(3).required(),
-    price: Joi.number().min(0).required(),
-    duration: Joi.string().min(3).required(),
-    instructor: Joi.string().min(3).required(),
-    rating: Joi.number().min(0).required(),
-    category: Joi.string().min(3).required(),
-  });
-  return shcema.validate(course);
-}
-
-function validateUpdateCourse(course) {
-  const shcema = Joi.object({
-    name: Joi.string().min(3),
-    description: Joi.string().min(3),
-    price: Joi.number().min(0),
-    duration: Joi.string().min(3),
-    instructor: Joi.string().min(3),
-    rating: Joi.number().min(0),
-    category: Joi.string().min(3),
-  });
-  return shcema.validate(course);
-}
+router.delete(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const course = await Course.findByIdAndRemove(req.params.id);
+    if (!course) {
+      res.status(404).send("The course with the given ID was not found.");
+      return;
+    }
+    res.status(200).json({ message: "Course deleted successfully" });
+  })
+);
 
 module.exports = router;
