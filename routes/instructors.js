@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { Instructor } = require("../models/Instructor");
-const { validateStoreInstructor, validateUpdateInstructor } = require("../validations/InstructorValidation");
+const asyncHandler = require("express-async-handler");
+const {
+  validateStoreInstructor,
+  validateUpdateInstructor,
+} = require("../validations/InstructorValidation");
 
 /**
  * @desc: Get all instructors
@@ -11,15 +15,13 @@ const { validateStoreInstructor, validateUpdateInstructor } = require("../valida
  * @return: instructors
  * @method: GET
  */
-router.get("/", async (req, res) => {
-  try {
+router.get(
+  "/",
+  asyncHandler(async (req, res) => {
     const instructors = await Instructor.find();
     res.status(200).json(instructors);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Something went wrong" });
-  }
-});
+  })
+);
 
 /**
  * @desc: Get an instructor by id
@@ -29,15 +31,17 @@ router.get("/", async (req, res) => {
  * @return: instructor
  * @method: GET
  */
-router.get("/:id", async (req, res) => {
-  try {
+router.get(
+  "/:id",
+  asyncHandler(async (req, res) => {
     const instructor = await Instructor.findById(req.params.id);
+    if (!instructor) {
+      res.status(404).send("The instructor with the given ID was not found.");
+      return;
+    }
     res.status(200).json(instructor);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Something went wrong" });
-  }
-});
+  })
+);
 
 /**
  * @desc: Create a new instructor
@@ -48,14 +52,14 @@ router.get("/:id", async (req, res) => {
  * @method: POST
  * @body: name, description
  */
-router.post("/", async (req, res) => {
-  const { error } = validateStoreInstructor(req.body);
-  if (error) {
-    res.status(400).send(error.details[0].message);
-    return;
-  }
-
-  try {
+router.post(
+  "/",
+  asyncHandler(async (req, res) => {
+    const { error } = validateStoreInstructor(req.body);
+    if (error) {
+      res.status(400).send(error.details[0].message);
+      return;
+    }
     const newInstructor = new Instructor({
       firstName: req.body?.firstName,
       lastName: req.body?.lastName,
@@ -65,11 +69,8 @@ router.post("/", async (req, res) => {
     });
     const response = await newInstructor.save();
     res.status(201).send(response);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Something went wrong" });
-  }
-});
+  })
+);
 
 /**
  * @desc: Update an instructor
@@ -80,14 +81,14 @@ router.post("/", async (req, res) => {
  * @method: PUT
  * @body: name, description
  */
-router.put("/:id", async (req, res) => {
-  const { error } = validateUpdateInstructor(req.body);
-  if (error) {
-    res.status(400).send(error.details[0].message);
-    return;
-  }
-
-  try {
+router.put(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const { error } = validateUpdateInstructor(req.body);
+    if (error) {
+      res.status(400).send(error.details[0].message);
+      return;
+    }
     const instructor = await Instructor.findByIdAndUpdate(
       req.params.id,
       {
@@ -106,11 +107,8 @@ router.put("/:id", async (req, res) => {
       return;
     }
     res.send(instructor);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Something went wrong" });
-  }
-});
+  })
+);
 
 /**
  * @desc: Delete an instructor
@@ -120,19 +118,16 @@ router.put("/:id", async (req, res) => {
  * @return: instructor
  * @method: DELETE
  */
-router.delete("/:id", async (req, res) => {
-  try {
+router.delete(
+  "/:id",
+  asyncHandler(async (req, res) => {
     const instructor = await Instructor.findByIdAndDelete(req.params.id);
     if (!instructor) {
       res.status(404).send("The instructor with the given ID was not found.");
       return;
     }
     res.send(instructor);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Something went wrong" });
-  }
- 
-});
+  })
+);
 
 module.exports = router;
