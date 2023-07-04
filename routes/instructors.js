@@ -1,17 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const {
-  Instructor
-} = require("../models/Instructor");
-const asyncHandler = require("express-async-handler");
-const {
-  validateStoreInstructor,
-  validateUpdateInstructor,
-} = require("../validations/InstructorValidation");
-
-const {
-  verifyTokenAndAdmin
-} = require("../middlewares/VerifyToken");
+const { verifyTokenAndAdmin } = require("../middlewares/VerifyToken");
+const  InstructorController = require("../controllers/InstructorController");
 
 /**
  * @desc: Get all instructors
@@ -21,15 +11,7 @@ const {
  * @return: instructors
  * @method: GET
  */
-router.get(
-  "/",
-  asyncHandler(async (req, res) => {
-    const page = Number(req.query.pageNumber) || 1;
-    const petPage = Number(req.query.petPageNumber) || 10;
-    const instructors = await Instructor.find().limit(petPage).skip(petPage * (page - 1));
-    res.status(200).json(instructors);
-  })
-);
+router.get('/', InstructorController.getAllInstructors);
 
 /**
  * @desc: Get an instructor by id
@@ -39,17 +21,8 @@ router.get(
  * @return: instructor
  * @method: GET
  */
-router.get(
-  "/:id",
-  asyncHandler(async (req, res) => {
-    const instructor = await Instructor.findById(req.params.id);
-    if (!instructor) {
-      res.status(404).send("The instructor with the given ID was not found.");
-      return;
-    }
-    res.status(200).json(instructor);
-  })
-);
+router.get('/:id', InstructorController.getInstructorById);
+  
 
 /**
  * @desc: Create a new instructor
@@ -60,28 +33,7 @@ router.get(
  * @method: POST
  * @body: name, description
  */
-router.post(
-  "/",
-  verifyTokenAndAdmin,
-  asyncHandler(async (req, res) => {
-    const {
-      error
-    } = validateStoreInstructor(req.body);
-    if (error) {
-      res.status(400).send(error.details[0].message);
-      return;
-    }
-    const newInstructor = new Instructor({
-      firstName: req.body?.firstName,
-      lastName: req.body?.lastName,
-      role: req.body?.role,
-      email: req.body?.email,
-      image: req.body?.image,
-    });
-    const response = await newInstructor.save();
-    res.status(201).send(response);
-  })
-);
+router.post('/', verifyTokenAndAdmin, InstructorController.storeInstructor);
 
 /**
  * @desc: Update an instructor
@@ -92,37 +44,7 @@ router.post(
  * @method: PUT
  * @body: name, description
  */
-router.put(
-  "/:id",
-  verifyTokenAndAdmin,
-  asyncHandler(async (req, res) => {
-    const {
-      error
-    } = validateUpdateInstructor(req.body);
-    if (error) {
-      res.status(400).send(error.details[0].message);
-      return;
-    }
-    const instructor = await Instructor.findByIdAndUpdate(
-      req.params.id, {
-      $set: {
-        firstName: req.body?.firstName,
-        lastName: req.body?.lastName,
-        role: req.body?.role,
-        email: req.body?.email,
-        image: req.body?.image,
-      },
-    }, {
-      new: true
-    }
-    );
-    if (!instructor) {
-      res.status(404).send("The instructor with the given ID was not found.");
-      return;
-    }
-    res.send(instructor);
-  })
-);
+router.put('/:id', verifyTokenAndAdmin, InstructorController.updateInstructor);
 
 /**
  * @desc: Delete an instructor
@@ -132,17 +54,6 @@ router.put(
  * @return: instructor
  * @method: DELETE
  */
-router.delete(
-  "/:id",
-  verifyTokenAndAdmin,
-  asyncHandler(async (req, res) => {
-    const instructor = await Instructor.findByIdAndDelete(req.params.id);
-    if (!instructor) {
-      res.status(404).send("The instructor with the given ID was not found.");
-      return;
-    }
-    res.send(instructor);
-  })
-);
+router.delete('/:id', verifyTokenAndAdmin, InstructorController.deleteInstructor);
 
 module.exports = router;
