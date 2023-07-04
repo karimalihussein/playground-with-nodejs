@@ -8,7 +8,7 @@ const {
 const { User } = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+
 
 
 /**
@@ -31,7 +31,7 @@ router.post('/register', asyncHandler(async (req, res) => {
         password: hashedPassword,
     });
     const response = await user.save();
-    const token = jwt.sign({ id: user._id, username: user.username, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+    const token = user.generateAuthToken();
     const {password, ...data} = response._doc;
     res.send({data, token});
 }));
@@ -49,7 +49,7 @@ router.post('/login', asyncHandler(async (req, res) => {
     if (!user) return res.status(400).json({ message: 'Invalid email Address' });
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).json({ message: 'Invalid password, please try again later' });
-    const token = jwt.sign({ id: user._id, username: user.username, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+    const token = user.generateAuthToken();
     const {password, ...data} = user._doc;
     res.send({data, token});
 }));

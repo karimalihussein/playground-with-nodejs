@@ -2,17 +2,14 @@ const express = require('express');
 const app = express();
 const courses = require('./routes/courses');
 const instructors = require('./routes/instructors');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+require('dotenv').config();
 const logger = require('./middlewares/LoggerMiddleware');
 const ErrorsMiddleware = require('./middlewares/ErrorsMiddleware');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+const connectToDB = require('./config/db');
 
-dotenv.config();
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI).then(() => console.log('Connected to MongoDB...')).catch(err => console.error('Could not connect to MongoDB...'));
+connectToDB();
 
 app.use(express.json());
 app.use(logger);
