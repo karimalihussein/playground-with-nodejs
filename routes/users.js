@@ -66,4 +66,17 @@ router.put(
     })
 );
 
+/**
+ * @desc:  get all users
+ * @route: GET /api/users
+ * @access: Private / Admin
+ */
+router.get('/', verifyTokenAndAdmin, asyncHandler(async (req, res) => {
+    const users = await User.find().select("-password");
+    res.send(users);
+}));
+
+
+
+
 module.exports = router;
