@@ -87,6 +87,17 @@ router.get('/:id', verifyTokenAndAuthorization, asyncHandler(async (req, res) =>
     res.send(user);
 }));
 
+/**
+ * @desc:  delete a user by id
+ * @route: DELETE /api/users/:id
+ * @access: Private / Admin
+ */
+router.delete('/:id', verifyTokenAndAdmin, asyncHandler(async (req, res) => {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json({ message: "User has been deleted" });
+}));
+
 
 
 
