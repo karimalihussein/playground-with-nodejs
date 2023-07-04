@@ -20,6 +20,7 @@ app.use('/api/users', users);
 app.use(ErrorsMiddleware.notFound);
 app.use(ErrorsMiddleware.errorHandler);
 
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`SERVER IS RUNNING IN ${process.env.NODE_ENV} MODE ON PORT ${port}...`);
