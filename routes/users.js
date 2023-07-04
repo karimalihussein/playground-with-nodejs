@@ -10,7 +10,9 @@ const {
 } = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const {
-    verifyToken
+    verifyToken,
+    verifyTokenAndAuthorization,
+    verifyTokenAndAdmin
 } = require("../middlewares/VerifyToken");
 
 /**
@@ -20,7 +22,7 @@ const {
  */
 router.put(
     "/:id",
-    verifyToken,
+    verifyTokenAndAuthorization,
     asyncHandler(async (req, res) => {
         if (req.user._id !== req.params.id)
             return res

@@ -13,4 +13,26 @@ function verifyToken(req, res, next) {
     }
 }
 
-module.exports = { verifyToken };
+function verifyTokenAndAuthorization(req, res, next) {
+    verifyToken(req, res, () => {
+        if(req.user.id === req.params.id || req.user.isAdmin) {
+            next();
+        } else {
+            res.status(403).json({ message: 'You are not allowed to do that' });
+        }
+    });
+}
+
+function verifyTokenAndAdmin(req, res, next) {
+    verifyToken(req, res, () => {
+        if(req.user.isAdmin) {
+            next();
+        } else {
+            res.status(403).json({ message: 'You are not allowed to do that, only the admins allowed to do this' });
+        }
+    });
+}
+
+
+
+module.exports = { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin };
