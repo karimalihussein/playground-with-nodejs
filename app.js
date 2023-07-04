@@ -16,6 +16,15 @@ app.use(logger);
 app.use('/api/courses', courses);
 app.use('/api/instructors', instructors);
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+    res.status(statusCode).json({
+        message: err.message,
+        stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
+    });
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`SERVER IS RUNNING IN ${process.env.NODE_ENV} MODE ON PORT ${port}...`);
