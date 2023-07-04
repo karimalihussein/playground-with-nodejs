@@ -7,6 +7,9 @@ const {
 } = require("../validations/CourseValidation");
 const asyncHandler = require("express-async-handler");
 const { Course } = require("../models/Course");
+const {
+  verifyTokenAndAdmin
+} = require("../middlewares/VerifyToken");
 
 /**
  * @desc: Get all courses
@@ -53,13 +56,14 @@ router.get(
 /**
  * @desc: Create a course
  * @route: POST /api/courses
- * @access: Public
+ * @access: Private
  * @param: req, res
  * @return: course
  * @method: POST
  */
 router.post(
   "/",
+  verifyTokenAndAdmin,
   asyncHandler(async (req, res) => {
     const { error } = validateStore(req.body);
     if (error) {
@@ -86,13 +90,14 @@ router.post(
 /**
  * @desc: Update a course
  * @route: PUT /api/courses/:id
- * @access: Public
+ * @access: Private
  * @param: req, res
  * @return: course
  * @method: PUT
  */
 router.put(
   "/:id",
+  verifyTokenAndAdmin,
   asyncHandler(async (req, res) => {
     const { error } = validateUpdate(req.body);
     if (error) {
@@ -119,13 +124,14 @@ router.put(
 /**
  * @desc: Delete a course
  * @route: DELETE /api/courses/:id
- * @access: Public
+ * @access: Private
  * @param: req, res
  * @return: course
  * @method: DELETE
  */
 router.delete(
   "/:id",
+  verifyTokenAndAdmin,
   asyncHandler(async (req, res) => {
     const course = await Course.findByIdAndRemove(req.params.id);
     if (!course) {

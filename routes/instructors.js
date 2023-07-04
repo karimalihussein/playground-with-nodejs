@@ -9,6 +9,10 @@ const {
   validateUpdateInstructor,
 } = require("../validations/InstructorValidation");
 
+const {
+  verifyTokenAndAdmin
+} = require("../middlewares/VerifyToken");
+
 /**
  * @desc: Get all instructors
  * @route: GET /api/instructors
@@ -48,7 +52,7 @@ router.get(
 /**
  * @desc: Create a new instructor
  * @route: POST /api/instructors
- * @access: Public
+ * @access: Private
  * @param: req, res
  * @return: instructor
  * @method: POST
@@ -56,6 +60,7 @@ router.get(
  */
 router.post(
   "/",
+  verifyTokenAndAdmin,
   asyncHandler(async (req, res) => {
     const {
       error
@@ -79,7 +84,7 @@ router.post(
 /**
  * @desc: Update an instructor
  * @route: PUT /api/instructors/:id
- * @access: Public
+ * @access: Private
  * @param: req, res
  * @return: instructor
  * @method: PUT
@@ -87,6 +92,7 @@ router.post(
  */
 router.put(
   "/:id",
+  verifyTokenAndAdmin,
   asyncHandler(async (req, res) => {
     const {
       error
@@ -119,13 +125,14 @@ router.put(
 /**
  * @desc: Delete an instructor
  * @route: DELETE /api/instructors/:id
- * @access: Public
+ * @access: Private
  * @param: req, res
  * @return: instructor
  * @method: DELETE
  */
 router.delete(
   "/:id",
+  verifyTokenAndAdmin,
   asyncHandler(async (req, res) => {
     const instructor = await Instructor.findByIdAndDelete(req.params.id);
     if (!instructor) {
