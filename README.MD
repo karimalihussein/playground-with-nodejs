@@ -20,6 +20,9 @@
     4. [What is End-to-End Testing?](#what-is-end-to-end-testing)
     5. [What is Test-Driven Development?](#what-is-test-driven-development)
     6. [Advantages of Unit Testing](#advantages-of-unit-testing)
+6. [Error Handling](#error-handling)
+    1. [Error Handling in Node.js](#error-handling-in-nodejs)
+
 
     
     
@@ -344,6 +347,122 @@ node app.js
 5. costs that would be incurred fixing bugs or due to system outage occasioned by bugs are reduced.
 
 6. unit testing helps to improve the design of the code, this is because the code is written in a modular manner and the dependencies are clearly defined.
+
+## 6.0 - Error Handling <a name="error-handling"></a>
+
+- Error handling is the process of responding to and recovering from error conditions in your program. Swift provides first-class support for throwing, catching, propagating, and manipulating recoverable errors at runtime.
+
+- Some operations aren’t guaranteed to always complete execution or produce a useful output. Optionals are used to represent the absence of a value, but when an operation fails, it’s often useful to understand what caused the failure so your code can respond accordingly.
+
+- As an example, consider the task of reading and processing data from a file on disk. There are a number of ways this task can fail, including the file not existing at the specified path, the file not having read permissions, or the file not being encoded in a compatible format. Distinguishing among these different situations allows a program to resolve some errors and to communicate to the user any errors it can’t resolve.
+
+- Note: Error handling in Swift interoperates with error handling patterns that use the NSError class in Cocoa and Objective-C. For more information about this class, see Error Handling Programming Guide for Cocoa.
+
+### 6.1 - Error Handling in Node.js <a name="error-handling-in-nodejs"></a>
+
+- Error handling is a pain, and it's easy to get by for a long time in Node.js without dealing with errors correctly. However, as soon as you start writing non-trivial Node applications, you'll find that proper error handling is a crucial part of writing reliable applications.
+
+- Erorrs in Nodejs are handled through exceptions.
+  - An exception is an event that occurs during the execution of a program that disrupts the normal flow of instructions.
+  - an exception is created using the throw keyword, and it is handled using the try...catch statement.
+
+- in nodejs we don't throw strings we just throw error objects.
+
+- an error object is an object that is either an instance of the error class or an instance of a class that inherits from the error class.
+
+- some of the properties of the error object are:
+  - name: the name of the error.
+  - message: the error message.
+  - stack: the stack trace of the error.
+
+- exmaple:
+
+```js
+throw new Error("this is an error");
+```
+
+- example:
+
+```js
+try {
+  throw new Error("this is an error");
+} catch (error) {
+  console.log(error);
+}
+```
+
+- example:
+
+```js
+class NotEnoughCoffeeError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "NotEnoughCoffeeError";
+  }
+}
+```
+
+### 6.2 - Exception with Promises <a name="exception-with-promises"></a>
+
+- Promises are a far cleaner solution to writing asynchronous code than callbacks. However, they don't solve the problem of error handling. In fact, they make it worse.
+
+- using promises you can chain different operations, and handle errors at the end.
+
+- How do you know where the error occurred? 
+  - you don't really know but you can handle errors in each of the functions you call doSomething().then(doSomethingElse).then(doThirdThing).catch(error => { console.log(error.message); });
+  - to be able to handle errors in each of the functions you call you need to throw an error in each of the functions you call.
+
+- example:
+```js
+doSomething()
+.then(result => doSomethingElse(result))
+.then(newResult => doThirdThing(newResult))
+.then(finalResult => {
+  console.log(`Got the final result: ${finalResult}`);
+})
+.catch(failureCallback);
+```
+
+## 6.3 - Best Practices For Handling Errors <a name="best-practices-for-handling-errors"></a>
+
+- Always return errors from asynchronous functions. 
+  - If you're writing an asynchronous function, make sure you return any errors that occur to the callback. 
+  - If you don't, the caller will never know that an error occurred. 
+  - This is a common mistake when using the Node.js fs module. 
+  - For example, the following code will fail silently if the file cannot be read:
+
+```js
+const fs = require('fs');
+
+function readFile(filePath, callback) {
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      callback(err); // Return the error to the callback
+      return;
+    }
+
+    callback(null, data); // Pass the data to the callback
+  });
+}
+
+// Example usage
+readFile('path/to/file.txt', (err, data) => {
+  if (err) {
+    console.error('Error reading file:', err);
+    // Handle the error appropriately (e.g., log, return response, etc.)
+    return;
+  }
+
+  console.log('File content:', data);
+  // Continue processing the file data
+});
+```
+
+
+
+
+
+
 
 
 
