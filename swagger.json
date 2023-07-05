@@ -1,0 +1,117 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Node.js (Express.js) + MongoDB (Mongoose) + API REST with JWT, CRUD, and Advanced Topics",
+        "description": "This is a REST API application made with Node.js, Express.js, MongoDB, Mongoose, JWT, and other packages. It is a simple CRUD application with authentication and authorization. It also has advanced topics like pagination, filtering, sorting, and more. It is a good example of a REST API made with Node.js and MongoDB.",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Node.js (Express.js) - APIS",
+            "description": "APIS made with Node.js and Express.js"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/instructors": {
+            "get": {
+                "description": "Returns a list of instructors, optionally sorted, filtered, and paginated, and with the total number of instructors in the database, to implement pagination on the client-side.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of instructors, with the total number of instructors in the database for pagination.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/instructors"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "instructors": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "example": "5f8b0f8b0f8b0f8b0f8b0f8b"
+                },
+                "firstName": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "role": {
+                    "type": "string",
+                    "example": "Instructor"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "John@gmail.com"
+                },
+                "image": {
+                    "type": "string",
+                    "example": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fhappy%2520people%2F&psig=AOvVaw0QZ3Z4Q4Z2Q4Z2Q4Z2Q4Z2&ust=1603097980008000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjQ4Z2Q4Z2QCFQAAAAAdAAAAABAD"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2020-10-17T17:26:03.000Z"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "example": "2020-10-17T17:26:03.000Z"
+                }
+            },
+            "required": [
+                "_id",
+                "firstName",
+                "lastName",
+                "role",
+                "email",
+                "image",
+                "createdAt",
+                "updatedAt"
+            ],
+            "example": {
+                "_id": "5f8b0f8b0f8b0f8b0f8b0f8b",
+                "firstName": "John",
+                "lastName": "Doe",
+                "role": "Instructor",
+                "email": "john@gmail.com",
+                "image": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fhappy%2520people%2F&psig=AOvVaw0QZ3Z4Q4Z2Q4Z2Q4Z2Q4Z2&ust=1603097980008000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjQ4Z2Q4Z2QCFQAAAAAdAAAAABAD",
+                "createdAt": "2020-10-17T17:26:03.000Z",
+                "updatedAt": "2020-10-17T17:26:03.000Z"
+            },
+            "xml": {
+                "name": "instructor"
+            },
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://swagger.io"
+            }
+        }
+        
+    }
+}

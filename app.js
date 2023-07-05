@@ -8,6 +8,9 @@ const ErrorsMiddleware = require('./middlewares/ErrorsMiddleware');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
 const connectToDB = require('./config/db');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
 
 connectToDB();
 
@@ -17,9 +20,9 @@ app.use('/api/courses', courses);
 app.use('/api/instructors', instructors);
 app.use('/api/auth', auth)
 app.use('/api/users', users);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(ErrorsMiddleware.notFound);
 app.use(ErrorsMiddleware.errorHandler);
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
