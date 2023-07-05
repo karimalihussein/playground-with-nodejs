@@ -117,7 +117,7 @@ winston.error('This is an error message.');
 3. **Accountability:** Auditing ensures accountability by providing a trail of actions performed within the system. In the event of errors, data breaches, or unauthorized activities, audit logs can help identify responsible individuals or processes and hold them accountable.
 
 
-## 3.1 - What is Auditing? How To Implement it? <a name="what-is-auditing-how-to-implement-it"></a>
+### 3.1 - What is Auditing? How To Implement it? <a name="what-is-auditing-how-to-implement-it"></a>
 
 - Auditing is the process of recording and tracking the activities and events within a system for the purpose of security, compliance, and accountability. It involves capturing relevant information about user actions, system activities, and security events, and storing them in a log or database.
 
@@ -139,7 +139,7 @@ winston.error('This is an error message.');
     5. Outcome
 4. Audit logs are stored in a secure location and are not accessible to the users.
 
-## 3.3 - Types of Industries that Rely on Audit Trails  <a name="types-of-industries-that-rely-on-audit-trails"></a>
+### 3.3 - Types of Industries that Rely on Audit Trails  <a name="types-of-industries-that-rely-on-audit-trails"></a>
 
 - Audit trails are used in a variety of industries and organizations, including healthcare, finance, government, and technology. Here are some examples of how audit trails are used in different industries:
 1. Financial, Accounting, Billing Records.
@@ -162,7 +162,7 @@ winston.error('This is an error message.');
 ... etc
 
 
-## 3.4 - How to Implement Auditing in Node.js <a name="how-to-implement-auditing-in-nodejs"></a>
+### 3.4 - How to Implement Auditing in Node.js <a name="how-to-implement-auditing-in-nodejs"></a>
 
 - To implement auditing in a Node.js application, you can use logging frameworks like Winston or built-in logging capabilities provided by platforms such as AWS CloudTrail or Azure Monitor. Additionally, you can define specific events and actions that need to be audited, and include relevant information such as user identities, timestamps, IP addresses, request parameters, and outcomes.
 
@@ -181,13 +181,13 @@ winston.error('This is an error message.');
 
 
 
-## 4.1 - What is Swagger? <a name="what-is-swagger"></a>
+### 4.1 - What is Swagger? <a name="what-is-swagger"></a>
 
 - Swagger is an open-source framework that helps developers design, build, document, and consume RESTful APIs. It provides a set of tools and specifications for describing the structure and functionality of an API in a machine-readable format.
 
 - Swagger is based on the OpenAPI Specification (formerly known as the Swagger Specification), which is a vendor-neutral, language-agnostic, and open specification for describing RESTful APIs. The OpenAPI Specification defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection.
 
-## 4.2 - How to Implement Swagger in Node.js <a name="how-to-implement-swagger-in-nodejs"></a>
+### 4.2 - How to Implement Swagger in Node.js <a name="how-to-implement-swagger-in-nodejs"></a>
 
 - To implement Swagger in a Node.js project, you can follow these steps:
 
@@ -283,7 +283,7 @@ node app.js
 
 6. View the Swagger UI: Open http://localhost:3000/api-docs in your browser to view the Swagger UI and interact with your API.
 
-## 4.3 - Benefits of Using Swagger <a name="benefits-of-using-swagger"></a>
+### 4.3 - Benefits of Using Swagger <a name="benefits-of-using-swagger"></a>
 
 - Swagger provides a number of benefits for developers and organizations, including:
 
@@ -301,25 +301,25 @@ node app.js
 
 - Testing is an important part of software development. It helps ensure that your code works as expected and that it doesn't break when you make changes to it. There are different types of tests that you can write for your Node.js application, including unit tests, integration tests, and end-to-end tests.
 
-## 5.1 - What is Testing? <a name="what-is-testing"></a>
+### 5.1 - What is Testing? <a name="what-is-testing"></a>
 
 - Testing is the process of evaluating a system or its component(s) with the intent to find whether it satisfies the specified requirements or not. In simple words, testing is executing a system in order to identify any gaps, errors, or missing requirements in contrary to the actual requirements.
 
-## 5.2 - What is Unit Testing? <a name="what-is-unit-testing"></a>
+### 5.2 - What is Unit Testing? <a name="what-is-unit-testing"></a>
 
 - Unit testing is a software testing method by which individual units of source code are tested to determine whether they are fit for use. A unit is the smallest testable part of any software. It usually has one or a few inputs and usually a single output. In procedural programming, a unit may be an individual function or procedure. In object-oriented programming, the smallest unit is a method, which may belong to a base/super class, abstract class or derived/child class. (Some treat a module of an application as a unit. This is to be discouraged as there will probably be many individual units within that module.)
 
 - Unit testing frameworks, drivers, stubs, and mock/ fake objects are used to assist in unit testing.
 
-## 5.3 - What is Integration Testing? <a name="what-is-integration-testing"></a>
+### 5.3 - What is Integration Testing? <a name="what-is-integration-testing"></a>
 
 - Integration testing is a level of software testing where individual units are combined and tested as a group. The purpose of this level of testing is to expose faults in the interaction between integrated units. Test drivers and test stubs are used to assist in integration testing.
 
-## 5.4 - What is End-to-End Testing? <a name="what-is-end-to-end-testing"></a>
+### 5.4 - What is End-to-End Testing? <a name="what-is-end-to-end-testing"></a>
 
 - End-to-end testing is a technique used to test whether the flow of an application is performing as designed from start to finish. The purpose of carrying out end-to-end tests is to identify system dependencies and to ensure that the right information is passed between various system components and systems.
 
-## 5.5 - What is Test-Driven Development? <a name="what-is-test-driven-development"></a>
+### 5.5 - What is Test-Driven Development? <a name="what-is-test-driven-development"></a>
 
 - Test-driven development (TDD) is a software development process that relies on the repetition of a very short development cycle: first the developer writes an (initially failing) automated test case that defines a desired improvement or new function, then produces the minimum amount of code to pass that test, and finally refactors the new code to acceptable standards.
 
@@ -331,7 +331,7 @@ node app.js
 
 
 
-## 5.6 - Advantages of Unit Testing <a name="advantages-of-unit-testing"></a>
+### 5.6 - Advantages of Unit Testing <a name="advantages-of-unit-testing"></a>
 
 1. it makes it easier to identify bugs in code early appropriate test case should be written for every pices of code to ensure that it meet specifications and provides the desired output.
 
