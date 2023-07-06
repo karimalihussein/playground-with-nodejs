@@ -1,44 +1,4 @@
 const Admin = require('../../models/Staff/Admin');
-/**
- * @description: Register admin 
- * @route: POST /api/admins/register
- * @access: Private
- */
-const registerAdmin = async (req, res) => {
-    const { name, email, password } = req.body;
-    try {
-        if(await Admin.findOne({ email })) { res.json({ message: 'User already exists!' }); }
-        const user = await Admin.create({ name, email, password });
-        res.status(201).json({
-            message: 'Admin created successfully!',
-            status: 'success',
-            data: user
-       });
-    } catch (error) {
-        res.status(500).json({
-            error: error.message,
-        });
-    }
-};
-
-/**
- * @description: Login admin
- * @route: POST /api/admins/login
- * @access: Public
- */
-const loginAdmin = (req, res) => {
-    try {
-        res.status(200).json({
-            message: 'Admin logged in successfully!',
-            status: 'success'
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        });
-    }
-};
 
 /**
  * @description: Get all admins
@@ -194,7 +154,7 @@ const unwithdrawTeacher = (req, res) => {
 
 
 
-module.exports = { registerAdmin, loginAdmin, getAllAdmins, getAdminById, updateAdmin, deleteAdmin, suspendTeacher, unsuspendTeacher, withdrawTeacher, unwithdrawTeacher }
+module.exports = { getAllAdmins, getAdminById, updateAdmin, deleteAdmin, suspendTeacher, unsuspendTeacher, withdrawTeacher, unwithdrawTeacher }
 
 
 
