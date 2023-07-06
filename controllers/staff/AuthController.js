@@ -1,6 +1,6 @@
 const Admin = require("../../models/Staff/Admin");
 const AysncHandler = require("express-async-handler");
-
+const generateToken = require("../../utils/GenerateToken");
 
 /**
  * @description: Register admin
@@ -25,27 +25,22 @@ const registerAdmin = AysncHandler(async (req, res) => {
  * @route: POST /api/admins/login
  * @access: Public
  */
-const loginAdmin = async (req, res) => {
+const loginAdmin = AysncHandler(async (req, res) => {
   const { email, password } = req.body;
-  try {
-    const user = await Admin.findOne({ email });
-    if (!user) {
-      res.json({ message: "User does not exist!" });
-    }
-    if (user && (await user.comparePassword(password))) {
-      res.status(200).json({
-        message: "Login successful!",
-        status: "success",
-        data: user,
-      });
-    } else {
-      res.json({ message: "Invalid email or password!" });
-    }
-  } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
+  const user = await Admin.findOne({ email });
+  if (!user) {
+    res.json({ message: "User does not exist!" });
   }
-};
+  if (user && (await user.comparePassword(password))) {
+    req.userAuth = user;
+    res.status(200).json({
+      message: "Login successful!",
+      status: "success",
+      token: generateToken(user._id),
+    });
+  } else {
+    res.json({ message: "Invalid email or password!" });
+  }
+});
 
 module.exports = { registerAdmin, loginAdmin };
