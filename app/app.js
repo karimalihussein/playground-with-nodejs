@@ -6,6 +6,7 @@ const app = express();
 
 // Middlewares
 app.use(morgan('dev'));
+app.use(express.json()); // pass incoming json data to req.body
 
 // Routes
 app.use('/api/v1/admins', adminRouter);

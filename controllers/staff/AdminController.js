@@ -1,19 +1,22 @@
-
+const Admin = require('../../models/Staff/Admin');
 /**
  * @description: Register admin 
  * @route: POST /api/admins/register
  * @access: Private
  */
-const registerAdmin =  (req, res) => {
+const registerAdmin = async (req, res) => {
+    const { name, email, password } = req.body;
     try {
-        res.status(200).json({
-            message: 'Admin registered successfully!',
-            status: 'success'
-        });
+        if(await Admin.findOne({ email })) { res.json({ message: 'User already exists!' }); }
+        const user = await Admin.create({ name, email, password });
+        res.status(201).json({
+            message: 'Admin created successfully!',
+            status: 'success',
+            data: user
+       });
     } catch (error) {
         res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
+            error: error.message,
         });
     }
 };
