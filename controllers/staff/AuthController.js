@@ -1,27 +1,24 @@
 const Admin = require("../../models/Staff/Admin");
+const AysncHandler = require("express-async-handler");
+
+
 /**
  * @description: Register admin
  * @route: POST /api/admins/register
  * @access: Private
  */
-const registerAdmin = async (req, res) => {
+const registerAdmin = AysncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  try {
-    if (await Admin.findOne({ email })) {
-      res.json({ message: "User already exists!" });
-    }
-    const user = await Admin.create({ name, email, password });
-    res.status(201).json({
-      message: "Admin created successfully!",
-      status: "success",
-      data: user,
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
+  if (await Admin.findOne({ email })) {
+    res.json({ message: "User already exists!" });
   }
-};
+  const user = await Admin.create({ name, email, password });
+  res.status(201).json({
+    message: "Admin created successfully!",
+    status: "success",
+    data: user,
+  });
+});
 
 /**
  * @description: Login admin
