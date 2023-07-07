@@ -3,11 +3,12 @@ const adminRouter = express.Router();
 const AdminController = require("../../controllers/staff/AdminController");
 const AuthController = require("../../controllers/staff/AuthController");
 const IsLogin = require("../../middlewares/LoginMiddleware");
+const isAdmin = require("../../middlewares/AdminMiddleware");
 
 adminRouter.post("/register", AuthController.registerAdmin);
 adminRouter.post("/login", AuthController.loginAdmin);
 adminRouter.post("/", AdminController.getAllAdmins);
-adminRouter.get("/", AdminController.getAllAdmins);
+adminRouter.get("/", IsLogin, isAdmin, AdminController.getAllAdmins);
 // adminRouter.get("/:id", IsLogin, AdminController.getAdminById);
 adminRouter.put("/:id", AdminController.updateAdmin);
 adminRouter.delete("/:id", AdminController.deleteAdmin);

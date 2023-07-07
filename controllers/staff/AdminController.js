@@ -1,4 +1,4 @@
-const Admin = require('../../models/Staff/Admin');
+const Admin = require("../../models/Staff/Admin");
 const AysncHandler = require("express-async-handler");
 
 /**
@@ -6,36 +6,31 @@ const AysncHandler = require("express-async-handler");
  * @route: GET /api/admins
  * @access: Private
  */
-const getAllAdmins = (req, res) => {
-    try {
-        res.status(200).json({
-            message: 'Admins fetched successfully!',
-            status: 'success'
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        });
-    }
-}
+const getAllAdmins = AysncHandler(async (req, res) => {
+    const admins = await Admin.find({});
+    res.status(200).json({
+        message: "Admins fetched successfully!",
+        status: "success",
+        data: admins,
+    });
+});
 
 /**
  * @description: Get admin by id
  * @route: GET /api/admins/:id
  * @access: Private
-*/
+ */
 const getAdminById = (req, res) => {
     try {
         res.status(200).json({
-            message: 'Admin fetched successfully!',
-            status: 'success'
+            message: "Admin fetched successfully!",
+            status: "success",
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        }); 
+            message: "Internal server error!",
+            status: "error",
+        });
     }
 };
 
@@ -47,14 +42,14 @@ const getAdminById = (req, res) => {
 const updateAdmin = (req, res) => {
     try {
         res.status(200).json({
-            message: 'Admin updated successfully!',
-            status: 'success'
+            message: "Admin updated successfully!",
+            status: "success",
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        }); 
+            message: "Internal server error!",
+            status: "error",
+        });
     }
 };
 
@@ -66,14 +61,14 @@ const updateAdmin = (req, res) => {
 const deleteAdmin = (req, res) => {
     try {
         res.status(200).json({
-            message: 'Admin deleted successfully!',
-            status: 'success'
+            message: "Admin deleted successfully!",
+            status: "success",
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        }); 
+            message: "Internal server error!",
+            status: "error",
+        });
     }
 };
 
@@ -85,14 +80,14 @@ const deleteAdmin = (req, res) => {
 const suspendTeacher = (req, res) => {
     try {
         res.status(200).json({
-            message: 'Teacher suspended successfully!',
-            status: 'success'
+            message: "Teacher suspended successfully!",
+            status: "success",
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        }); 
+            message: "Internal server error!",
+            status: "error",
+        });
     }
 };
 
@@ -104,14 +99,14 @@ const suspendTeacher = (req, res) => {
 const unsuspendTeacher = (req, res) => {
     try {
         res.status(200).json({
-            message: 'Teacher unsuspended successfully!',
-            status: 'success'
+            message: "Teacher unsuspended successfully!",
+            status: "success",
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        }); 
+            message: "Internal server error!",
+            status: "error",
+        });
     }
 };
 
@@ -123,14 +118,14 @@ const unsuspendTeacher = (req, res) => {
 const withdrawTeacher = (req, res) => {
     try {
         res.status(200).json({
-            message: 'Teacher withdrawn successfully!',
-            status: 'success'
+            message: "Teacher withdrawn successfully!",
+            status: "success",
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        }); 
+            message: "Internal server error!",
+            status: "error",
+        });
     }
 };
 
@@ -142,14 +137,14 @@ const withdrawTeacher = (req, res) => {
 const unwithdrawTeacher = (req, res) => {
     try {
         res.status(200).json({
-            message: 'Teacher unwithdrawn successfully!',
-            status: 'success'
+            message: "Teacher unwithdrawn successfully!",
+            status: "success",
         });
     } catch (error) {
         res.status(500).json({
-            message: 'Internal server error!',
-            status: 'error'
-        }); 
+            message: "Internal server error!",
+            status: "error",
+        });
     }
 };
 
@@ -157,25 +152,26 @@ const adminProfile = AysncHandler(async (req, res) => {
     const admin = await Admin.findById(req.userAuth._id);
     if (admin) {
         res.status(200).json({
-            message: 'Admin profile fetched successfully!',
-            status: 'success',
-            data: admin
+            message: "Admin profile fetched successfully!",
+            status: "success",
+            data: admin,
         });
     } else {
         res.status(404).json({
-            message: 'Admin not found!',
-            status: 'error'
+            message: "Admin not found!",
+            status: "error",
         });
     }
 });
 
-
-
-module.exports = { getAllAdmins, getAdminById, updateAdmin, deleteAdmin, suspendTeacher, unsuspendTeacher, withdrawTeacher, unwithdrawTeacher, adminProfile }
-
-
-
-
-
-
-
+module.exports = {
+    getAllAdmins,
+    getAdminById,
+    updateAdmin,
+    deleteAdmin,
+    suspendTeacher,
+    unsuspendTeacher,
+    withdrawTeacher,
+    unwithdrawTeacher,
+    adminProfile,
+};
