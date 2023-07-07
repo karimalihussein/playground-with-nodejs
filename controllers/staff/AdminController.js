@@ -37,11 +37,15 @@ const getAdminById = AysncHandler(async (req, res) => {
  * @access: Private
  */
 const updateAdmin = AysncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    var { name, email, password } = req.body;
     const adminFound = await Admin.findById(req.params.id);
-    const emailExits = await Admin.findOne({ email });
     if(!adminFound) { return res.status(404).json({ message: "Admin not found!" }); }
+    const emailExits = await Admin.findOne({ email, _id: { $ne: req.params.id } });
     if(emailExits) { return res.status(400).json({ message: "Email already exists!" }); }
+    if(password) {
+        const salt = await bcrypt.genSalt(10);
+        password = await bcrypt.hash(password, salt);
+    }
     const admin = await Admin.findByIdAndUpdate(req.params.id, { name, email, password }, {
         new: true,
         runValidators: true,
