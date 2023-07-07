@@ -14,7 +14,7 @@ const registerAdmin = AysncHandler(async (req, res) => {
   }
   const user = await Admin.create({ name, email, password });
   res.status(201).json({
-    message: "Admin created successfully!",
+    message: "Admin Registered successfully",
     status: "success",
     data: user,
   });
