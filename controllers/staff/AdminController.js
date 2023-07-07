@@ -1,4 +1,5 @@
 const Admin = require('../../models/Staff/Admin');
+const AysncHandler = require("express-async-handler");
 
 /**
  * @description: Get all admins
@@ -152,9 +153,25 @@ const unwithdrawTeacher = (req, res) => {
     }
 };
 
+const adminProfile = AysncHandler(async (req, res) => {
+    const admin = await Admin.findById(req.userAuth._id);
+    if (admin) {
+        res.status(200).json({
+            message: 'Admin profile fetched successfully!',
+            status: 'success',
+            data: admin
+        });
+    } else {
+        res.status(404).json({
+            message: 'Admin not found!',
+            status: 'error'
+        });
+    }
+});
 
 
-module.exports = { getAllAdmins, getAdminById, updateAdmin, deleteAdmin, suspendTeacher, unsuspendTeacher, withdrawTeacher, unwithdrawTeacher }
+
+module.exports = { getAllAdmins, getAdminById, updateAdmin, deleteAdmin, suspendTeacher, unsuspendTeacher, withdrawTeacher, unwithdrawTeacher, adminProfile }
 
 
 
