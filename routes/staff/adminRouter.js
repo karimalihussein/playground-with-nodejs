@@ -10,7 +10,7 @@ adminRouter.post("/login", AuthController.loginAdmin);
 adminRouter.post("/", AdminController.getAllAdmins);
 adminRouter.get("/", IsLogin, isAdmin, AdminController.getAllAdmins);
 // adminRouter.get("/:id", IsLogin, AdminController.getAdminById);
-adminRouter.put("/:id", AdminController.updateAdmin);
+adminRouter.put("/:id", IsLogin, isAdmin, AdminController.updateAdmin);
 adminRouter.delete("/:id", AdminController.deleteAdmin);
 adminRouter.put("/suspend/teacher/:id", AdminController.suspendTeacher);
 adminRouter.put("/unsuspend/teacher/:id", AdminController.unsuspendTeacher);

@@ -1,6 +1,7 @@
 const Admin = require("../../models/Staff/Admin");
 const AysncHandler = require("express-async-handler");
 const generateToken = require("../../utils/GenerateToken");
+const bcrypt = require("bcryptjs");
 
 /**
  * @description: Register admin
@@ -12,7 +13,13 @@ const registerAdmin = AysncHandler(async (req, res) => {
   if (await Admin.findOne({ email })) {
     res.json({ message: "User already exists!" });
   }
-  const user = await Admin.create({ name, email, password });
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const user = await Admin.create({ 
+    name, 
+    email, 
+    password: hashedPassword, 
+  });
   res.status(201).json({
     message: "Admin Registered successfully",
     status: "success",
@@ -31,16 +38,14 @@ const loginAdmin = AysncHandler(async (req, res) => {
   if (!user) {
     res.json({ message: "User does not exist!" });
   }
-  if (user && (await user.comparePassword(password))) {
+  const isMatched = await bcrypt.compare(password, user.password);
+  if(!isMatched) { return res.json({ message: "Invalid email or password!" }) };
     req.userAuth = user;
     res.status(200).json({
       message: "Login successful!",
       status: "success",
       token: generateToken(user._id),
     });
-  } else {
-    res.json({ message: "Invalid email or password!" });
-  }
 });
 
 module.exports = { registerAdmin, loginAdmin };

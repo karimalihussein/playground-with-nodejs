@@ -1,5 +1,6 @@
 const Admin = require("../../models/Staff/Admin");
 const AysncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
 
 /**
  * @description: Get all admins
@@ -20,38 +21,37 @@ const getAllAdmins = AysncHandler(async (req, res) => {
  * @route: GET /api/admins/:id
  * @access: Private
  */
-const getAdminById = (req, res) => {
-    try {
-        res.status(200).json({
-            message: "Admin fetched successfully!",
-            status: "success",
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal server error!",
-            status: "error",
-        });
-    }
-};
+const getAdminById = AysncHandler(async (req, res) => {
+    const admin = await Admin.findById(req.params.id);
+    if(!admin) { return res.status(404).json({ message: "Admin not found!" }); }
+    res.status(200).json({
+        message: "Admin fetched successfully!",
+        status: "success",
+        data: admin,
+    });
+});
 
 /**
  * @description: Update admin
  * @route: PUT /api/admins/:id
  * @access: Private
  */
-const updateAdmin = (req, res) => {
-    try {
-        res.status(200).json({
-            message: "Admin updated successfully!",
-            status: "success",
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal server error!",
-            status: "error",
-        });
-    }
-};
+const updateAdmin = AysncHandler(async (req, res) => {
+    const { name, email, password } = req.body;
+    const adminFound = await Admin.findById(req.params.id);
+    const emailExits = await Admin.findOne({ email });
+    if(!adminFound) { return res.status(404).json({ message: "Admin not found!" }); }
+    if(emailExits) { return res.status(400).json({ message: "Email already exists!" }); }
+    const admin = await Admin.findByIdAndUpdate(req.params.id, { name, email, password }, {
+        new: true,
+        runValidators: true,
+    });
+    res.status(200).json({
+        message: "Admin updated successfully!",
+        status: "success",
+        data: admin,
+    })
+});
 
 /**
  * @description: Delete admin
