@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
  * @access: Private
  */
 const getAllAdmins = AysncHandler(async (req, res) => {
-    const admins = await Admin.find({});
+    const admins = await Admin.find({}).select("-password -__v -createdAt -updatedAt").populate("academicYears", "name");
     res.status(200).json({
         message: "Admins fetched successfully!",
         status: "success",
