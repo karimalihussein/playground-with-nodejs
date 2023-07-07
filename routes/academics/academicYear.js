@@ -8,6 +8,6 @@ AcademicYearRouter.post('/', IsLogin, isAdmin, AcademicYearController.createAcad
 AcademicYearRouter.get('/', IsLogin, isAdmin, AcademicYearController.getAcademicYears);
 AcademicYearRouter.get('/:id', IsLogin, isAdmin, AcademicYearController.getAcademicYearById);
 AcademicYearRouter.put('/:id', IsLogin, isAdmin, AcademicYearController.updateAcademicYear);
-
+AcademicYearRouter.delete('/:id', IsLogin, isAdmin, AcademicYearController.deleteAcademicYear);
 
 module.exports = AcademicYearRouter;

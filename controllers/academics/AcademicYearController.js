@@ -74,5 +74,19 @@ const updateAcademicYear = AysncHandler(async (req, res) => {
 });
 
 
+const deleteAcademicYear = AysncHandler(async (req, res) => {
+    const { id } = req.params;
+    const academicYear = await AcademicYear.findByIdAndDelete(id);
+    if (!academicYear) {
+        throw new Error("Academic year not found");
+    }
+    res.status(200).json({
+        status: "success",
+        message: "Academic year deleted successfully",
+        data: academicYear
+    });
+});
 
-module.exports = { createAcademicYear, getAcademicYears, getAcademicYearById, updateAcademicYear };
+
+
+module.exports = { createAcademicYear, getAcademicYears, getAcademicYearById, updateAcademicYear, deleteAcademicYear };
