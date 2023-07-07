@@ -50,5 +50,25 @@ const getAcademicYearById = AysncHandler(async (req, res) => {
 });
 
 
+const updateAcademicYear = AysncHandler(async (req, res) => {
+    const { name, fromYear, toYear } = req.body;
+    const { id } = req.params;
+    const academicYear = await AcademicYear.findByIdAndUpdate(id, {
+        name,
+        fromYear,
+        toYear,
+    }, { new: true });
+    if (!academicYear) {
+        throw new Error("Academic year not found");
+    };
 
-module.exports = { createAcademicYear, getAcademicYears, getAcademicYearById };
+    res.status(200).json({
+        status: "success",
+        message: "Academic year updated successfully",
+        data: academicYear
+    });
+});
+
+
+
+module.exports = { createAcademicYear, getAcademicYears, getAcademicYearById, updateAcademicYear };

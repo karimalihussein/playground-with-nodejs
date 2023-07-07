@@ -7,6 +7,7 @@ const isAdmin = require('../../middlewares/AdminMiddleware');
 AcademicYearRouter.post('/', IsLogin, isAdmin, AcademicYearController.createAcademicYear);
 AcademicYearRouter.get('/', IsLogin, isAdmin, AcademicYearController.getAcademicYears);
 AcademicYearRouter.get('/:id', IsLogin, isAdmin, AcademicYearController.getAcademicYearById);
+AcademicYearRouter.put('/:id', IsLogin, isAdmin, AcademicYearController.updateAcademicYear);
 
 
 module.exports = AcademicYearRouter;
