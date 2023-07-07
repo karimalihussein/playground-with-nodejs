@@ -53,6 +53,10 @@ const getAcademicYearById = AysncHandler(async (req, res) => {
 const updateAcademicYear = AysncHandler(async (req, res) => {
     const { name, fromYear, toYear } = req.body;
     const { id } = req.params;
+    const academicYearExists = await AcademicYear.findOne({ name });
+    if (academicYearExists && academicYearExists._id != id) {
+        throw new Error("Academic year already exists");
+    }
     const academicYear = await AcademicYear.findByIdAndUpdate(id, {
         name,
         fromYear,
