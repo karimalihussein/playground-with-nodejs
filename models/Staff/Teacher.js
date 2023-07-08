@@ -17,14 +17,14 @@ const TeacherSchema = new Schema({
     isWithdrawn: { type: Boolean, required: true, default: false },
     isSuspended: { type: Boolean, required: true, default: false },
     role: { type: String, required: true, default: "teacher" },
-    subject: { type: Schema.Types.ObjectId, ref: 'Subject', required: true },
+    subject: { type: Schema.Types.ObjectId, ref: 'Subject', required: false },
     applicationStatus: { type: String, required: true, default: "pending", enum: ["pending", "approved", "rejected"] }, 
-    program: { type: Schema.Types.ObjectId, ref: 'Program', required: true },
-    classLevel: { type: Schema.Types.ObjectId, ref: 'ClassLevel', required: true },
-    acdemicYear: { type: Schema.Types.ObjectId, ref: 'AcademicYear', required: true },
+    program: { type: Schema.Types.ObjectId, ref: 'Program', required: false },
+    classLevel: { type: Schema.Types.ObjectId, ref: 'ClassLevel', required: false },
+    acdemicYear: { type: Schema.Types.ObjectId, ref: 'AcademicYear', required: false },
     examsCreated: [{ type: Schema.Types.ObjectId, ref: 'Exam' }],  
-    createdBy: { type: Schema.Types.ObjectId, ref: 'Admin', required: true },
-    acdemicTerm: { type: Schema.Types.ObjectId, ref: 'AcademicTerm', required: true },
+    createdBy: { type: Schema.Types.ObjectId, ref: 'Admin', required: false },
+    acdemicTerm: { type: Schema.Types.ObjectId, ref: 'AcademicTerm', required: false },
 }, { timestamps: true });
 
 const Teacher = mongoose.model('Teacher', TeacherSchema);
