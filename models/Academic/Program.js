@@ -1,19 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const ProgramSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-    },
-    duration: {
-      type: String,
-      required: true,
-      default: "4 years",
-    },
+const ProgramSchema = new Schema({
+    name: { type: String, required: true, unique: true },
+    description: { type: String },
+    duration: { type: String, required: true, default: "4 years" },
     code: {
       type: String,
       default: function () {
@@ -28,32 +18,10 @@ const ProgramSchema = new Schema(
         );
       },
     },
-    createdBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'Admin',
-        required: true
-    },
-    teachers: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Teacher',
-            default: []
-        }
-    ],
-    students: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Student',
-            default: []
-        }
-    ],
-    subjects: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Course',
-            default: []
-        }
-    ]
+    createdBy: { type: Schema.Types.ObjectId, ref: 'Admin', required: true },
+    teachers: [{ type: Schema.Types.ObjectId, ref: 'Teacher', default: []}],
+    students: [{ type: Schema.Types.ObjectId, ref: 'Student', default: []}],
+    subjects: [{ type: Schema.Types.ObjectId, ref: 'Course', default: [] }]
   },
   { timestamps: true }
 );

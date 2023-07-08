@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ClassLevelSchema = new Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true},
     description: { type: String, required: true },
     createdBy: { type: Schema.Types.ObjectId, ref: 'Admin', required: true },
     students: [{ type: Schema.Types.ObjectId, ref: 'Student' }],

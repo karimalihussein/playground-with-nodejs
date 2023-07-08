@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ExamSchema = new Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     subject: { type: Schema.Types.ObjectId, ref: 'Subject', required: true },
     program: { type: Schema.Types.ObjectId, ref: 'Program', required: true },

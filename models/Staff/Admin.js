@@ -13,6 +13,7 @@ const adminSchema = Schema(
     teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Teacher"}],
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student"}],
     programs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Program"}],
+    yearGroups: [{ type: mongoose.Schema.Types.ObjectId, ref: "YearGroup"}],
   },
   { timestamps: true }
 );
