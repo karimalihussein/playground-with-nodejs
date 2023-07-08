@@ -22,7 +22,7 @@ const TeacherSchema = new Schema({
     program: { type: Schema.Types.ObjectId, ref: 'Program', required: false },
     classLevel: { type: Schema.Types.ObjectId, ref: 'ClassLevel', required: false },
     acdemicYear: { type: Schema.Types.ObjectId, ref: 'AcademicYear', required: false },
-    examsCreated: [{ type: Schema.Types.ObjectId, ref: 'Exam' }],  
+    exams: [{ type: Schema.Types.ObjectId, ref: 'Exam' }],  
     createdBy: { type: Schema.Types.ObjectId, ref: 'Admin', required: false },
     acdemicTerm: { type: Schema.Types.ObjectId, ref: 'AcademicTerm', required: false },
 }, { timestamps: true });
