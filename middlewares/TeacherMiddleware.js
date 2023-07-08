@@ -2,7 +2,7 @@ const Teacher = require('../models/Staff/Teacher');
 const VerifyToken = require("../utils/VerifyToken");
 
 const isTeacher = async (req, res, next) => {
-    const userId = req.userAuth.id;
+    const userId = req.userAuth?.id;
     const teacherFound = await Teacher.findById(userId);
     if (!teacherFound) {
         return res.status(401).json({

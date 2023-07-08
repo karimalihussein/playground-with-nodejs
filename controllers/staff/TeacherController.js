@@ -42,5 +42,25 @@ const index = AysncHandler(async (req, res) => {
   });
 });
 
+const show = AysncHandler(async(req, res) => { 
+  const teacher = await Teacher.findById(req.params.id);
+  if(!teacher) { return res.json({ message: "Teacher does not exist!" }); };
+  res.status(200).json({
+    message: "Teacher fetched successfully!",
+    status: "success",
+    data: teacher,
+  });
+});
 
-module.exports = { register, login, index };
+const getTeacherProfile = AysncHandler (async (req, res) => {
+  const teacher = await Teacher.findById(req.userAuth._id);
+  if(!teacher) { return res.json({ message: "Teacher does not exist!" }); }
+  res.status(200).json({
+    message: "Your profile fetched successfully!",
+    status: "success",
+    data: teacher,
+  });
+});
+
+
+module.exports = { register, login, index, show, getTeacherProfile };
