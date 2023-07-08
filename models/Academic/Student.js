@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 const StudentSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, index: true },
     phone: { type: String, required: true, unique: true, index: true },
+    password: { type: String, required: true },
     age: { type: Number, required: true },
     studentId: { type: String, required: true, unique: true, index: true, 
         default: function () {
@@ -18,16 +19,16 @@ const StudentSchema = new Schema({
     },
     isWitdrawn: { type: Boolean, default: false },
     role: { type: String, default: 'student' },
-    classLevels: [{ type: Schema.Types.ObjectId, ref: 'ClassLevel', required: true }],
-    currentClassLevel: { type: String,
+    classLevels: [{ type: Schema.Types.ObjectId, ref: 'ClassLevel', required: false }],
+    currentClassLevel: { type: String, required: false,
         default: function () {
             return this.classLevels[this.classLevels.length - 1];
         }
     },
-    academicYear: { type: mongoose.Schema.Types.ObjectId, ref: 'AcademicYear', required: true },
+    academicYear: { type: mongoose.Schema.Types.ObjectId, ref: 'AcademicYear', required: false },
     dateAdmitted: { type: Date, default: Date.now },
     examResults: [{ type: Schema.Types.ObjectId, ref: 'ExamResult' }],
-    program: { type: Schema.Types.ObjectId, ref: 'Program', required: true },
+    program: { type: Schema.Types.ObjectId, ref: 'Program', required: false },
     isPromotedToLevel200: { type: Boolean, default: false },
     isPromotedToLevel300: { type: Boolean, default: false },
     isPromotedToLevel400: { type: Boolean, default: false },
