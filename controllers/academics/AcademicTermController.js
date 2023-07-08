@@ -74,7 +74,7 @@ const update = AysncHandler(async (req, res) => {
 });
 
 
-const destory = AysncHandler(async (req, res) => {
+const destroy = AysncHandler(async (req, res) => {
     const { id } = req.params;
     const academicTerm = await AcademicTerm.findByIdAndDelete(id);
     if (!academicTerm) {
@@ -89,4 +89,4 @@ const destory = AysncHandler(async (req, res) => {
 
 
 
-module.exports = { store, index, show, update,  destory};
+module.exports = { store, index, show, update, destroy};

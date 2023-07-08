@@ -12,7 +12,7 @@ const adminSchema = Schema(
     classLevels: [{ type: mongoose.Schema.Types.ObjectId, ref: "ClassLevel"}],
     teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Teacher"}],
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student"}],
-    
+    programs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Program"}],
   },
   { timestamps: true }
 );

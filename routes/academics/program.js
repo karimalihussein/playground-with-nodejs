@@ -1,6 +1,6 @@
 const express = require('express');
 const Router = express.Router();
-const Controller = require('../../controllers/academics/AcademicTermController');
+const Controller = require('../../controllers/academics/ProgramController');
 const IsLogin = require('../../middlewares/LoginMiddleware');
 const isAdmin = require('../../middlewares/AdminMiddleware');
 
