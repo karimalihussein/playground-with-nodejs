@@ -20,5 +20,27 @@ const register = AysncHandler(async (req, res) => {
   });
 });
 
+const login = AysncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const teacher = await Teacher.findOne({ email });
+  if (!teacher) { return res.json({ message: "Teacher does not exist!" }); };
+  if (!await Helpers.comparePassword(password, teacher.password)) { return res.json({ message: "Invalid email or password!" }) };
+  req.userAuth = teacher;
+  res.status(200).json({
+    message: "Teacher has been Logged successful!",
+    status: "success",
+    token: generateToken(teacher._id),
+  });
+});
 
-module.exports = { register };
+const index = AysncHandler(async (req, res) => {
+  const teachers = await Teacher.find({});
+  res.status(200).json({
+    message: "Teachers fetched successfully!",
+    status: "success",
+    data: teachers,
+  });
+});
+
+
+module.exports = { register, login, index };
