@@ -5,9 +5,19 @@ const bcrypt = require("bcryptjs");
 const Helpers = require("../../utils/Helpers");
 
 const register = AysncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  const TeacherExists = await Teacher.findOne({ email });
-  if (TeacherExists) { return res.json({ message: "Teacher is already exists!" }); };
+  const {
+    name,
+    email,
+    password
+  } = req.body;
+  const TeacherExists = await Teacher.findOne({
+    email
+  });
+  if (TeacherExists) {
+    return res.json({
+      message: "Teacher is already exists!"
+    });
+  };
   const teacher = await Teacher.create({
     name,
     email,
@@ -21,10 +31,23 @@ const register = AysncHandler(async (req, res) => {
 });
 
 const login = AysncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  const teacher = await Teacher.findOne({ email });
-  if (!teacher) { return res.json({ message: "Teacher does not exist!" }); };
-  if (!await Helpers.comparePassword(password, teacher.password)) { return res.json({ message: "Invalid email or password!" }) };
+  const {
+    email,
+    password
+  } = req.body;
+  const teacher = await Teacher.findOne({
+    email
+  });
+  if (!teacher) {
+    return res.json({
+      message: "Teacher does not exist!"
+    });
+  };
+  if (!await Helpers.comparePassword(password, teacher.password)) {
+    return res.json({
+      message: "Invalid email or password!"
+    })
+  };
   req.userAuth = teacher;
   res.status(200).json({
     message: "Teacher has been Logged successful!",
@@ -34,7 +57,7 @@ const login = AysncHandler(async (req, res) => {
 });
 
 const index = AysncHandler(async (req, res) => {
-  const teachers = await Teacher.find({});
+  const teachers = await Teacher.find({}).select('-password -createdAt -updatedAt -__v');
   res.status(200).json({
     message: "Teachers fetched successfully!",
     status: "success",
@@ -42,9 +65,13 @@ const index = AysncHandler(async (req, res) => {
   });
 });
 
-const show = AysncHandler(async(req, res) => { 
+const show = AysncHandler(async (req, res) => {
   const teacher = await Teacher.findById(req.params.id);
-  if(!teacher) { return res.json({ message: "Teacher does not exist!" }); };
+  if (!teacher) {
+    return res.json({
+      message: "Teacher does not exist!"
+    });
+  };
   res.status(200).json({
     message: "Teacher fetched successfully!",
     status: "success",
@@ -52,9 +79,13 @@ const show = AysncHandler(async(req, res) => {
   });
 });
 
-const getTeacherProfile = AysncHandler (async (req, res) => {
-  const teacher = await Teacher.findById(req.userAuth._id);
-  if(!teacher) { return res.json({ message: "Teacher does not exist!" }); }
+const getTeacherProfile = AysncHandler(async (req, res) => {
+  const teacher = await Teacher.findById(req.userAuth._id).select('-password -createdAt -updatedAt -__v');
+  if (!teacher) {
+    return res.json({
+      message: "Teacher does not exist!"
+    });
+  }
   res.status(200).json({
     message: "Your profile fetched successfully!",
     status: "success",
@@ -62,5 +93,52 @@ const getTeacherProfile = AysncHandler (async (req, res) => {
   });
 });
 
+const updateTeacherProfile = AysncHandler(async (req, res) => {
+  const {
+    name,
+    email,
+    password
+  } = req.body;
+  const teacherFound = await Teacher.findOne({ email });
+  if (teacherFound ) {
+    return res.json({
+      message: "Email already exists!"
+    });
+  };
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password, salt);
+  }
+  const teacher = await Teacher.findByIdAndUpdate(req.userAuth._id, {
+    name,
+    email,
+    password
+  }, {
+    new: true,
+    runValidators: true,
+  });
 
-module.exports = { register, login, index, show, getTeacherProfile };
+  if(!teacher) {
+    return res.json({
+      message: "Teacher does not exist!"
+    });
+  }
+
+  res.status(200).json({
+    message: "you're has been update your info successfully!",
+    status: "success",
+    data: teacher,
+  })
+
+
+});
+
+
+module.exports = {
+  register,
+  login,
+  index,
+  show,
+  getTeacherProfile,
+  updateTeacherProfile
+};
