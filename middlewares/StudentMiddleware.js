@@ -1,10 +1,10 @@
-const Teacher = require('../models/Staff/Teacher');
+const Student = require('../models/Academic/Student');
 const VerifyToken = require("../utils/VerifyToken");
 
-const isTeacher = async (req, res, next) => {
+const isStudent = async (req, res, next) => {
     const userId = req.userAuth?.id;
-    const teacherFound = await Teacher.findById(userId);
-    if (!teacherFound || teacherFound.role !== 'teacher') {
+    const studentFound = await Student.findById(userId);
+    if (!studentFound || studentFound.role !== 'student') {
         return res.status(401).json({
             message: 'Unauthorized'
         });
@@ -14,7 +14,7 @@ const isTeacher = async (req, res, next) => {
 
 
 
-const isTeacherLoggedIn = async (req, res, next) => {
+const isStudentLoggedIn = async (req, res, next) => {
     const headerToken = req.headers;
     const token = headerToken?.authorization?.split(" ")[1];
     if (!token) {
@@ -28,9 +28,9 @@ const isTeacherLoggedIn = async (req, res, next) => {
             message: "Unauthorized",
         });
     }
-    const user = await Teacher.findById(verify.id);
+    const user = await Student.findById(verify.id);
     req.userAuth = user;
     next();
 };
 
-module.exports = { isTeacher, isTeacherLoggedIn };
+module.exports = { isStudent, isStudentLoggedIn };
