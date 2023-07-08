@@ -10,5 +10,6 @@ Router.post("/admin/register", IsLogin, isAdmin, TeacherController.register);
 Router.post("/login", TeacherController.login);
 Router.get("/", TeacherMiddleware.isTeacherLoggedIn, TeacherMiddleware.isTeacher, TeacherController.index);
 Router.get("/:id", IsLogin, isAdmin, TeacherController.show);
+Router.put("/:id", IsLogin, isAdmin, TeacherController.adminUpdateTeacherProfile);
 
 module.exports = Router;

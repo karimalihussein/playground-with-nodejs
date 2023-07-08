@@ -133,6 +133,22 @@ const updateTeacherProfile = AysncHandler(async (req, res) => {
 
 });
 
+const adminUpdateTeacherProfile = AysncHandler(async (req, res) => {
+  const { program, classLevel, academicYear, subject } = req.body;
+  const teacher = await Teacher.findById(req.params.id);
+  if (!teacher) { return res.json({ message: "Teacher does not exist!" }); }
+  if(program) teacher.program = program;
+  if(classLevel) teacher.classLevel = classLevel;
+  if(academicYear) teacher.academicYear = academicYear;
+  if(subject) teacher.subject = subject;
+  await teacher.save();
+  res.status(200).json({
+    message: "Teacher has been updated successfully!",
+    status: "success",
+    data: teacher,
+  });
+});
+
 
 module.exports = {
   register,
@@ -140,5 +156,6 @@ module.exports = {
   index,
   show,
   getTeacherProfile,
-  updateTeacherProfile
+  updateTeacherProfile,
+  adminUpdateTeacherProfile
 };
