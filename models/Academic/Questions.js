@@ -3,10 +3,10 @@ const { Schema } = mongoose;
 
 const QuestionSchema = new Schema({
     question: { type: String, required: true },
-    optionsA: { type: String, required: true },
-    optionsB: { type: String, required: true },
-    optionsC: { type: String, required: true },
-    optionsD: { type: String, required: true },
+    optionA: { type: String, required: true },
+    optionB: { type: String, required: true },
+    optionC: { type: String, required: true },
+    optionD: { type: String, required: true },
     correctAnswer: { type: String, required: true },
     isCorrect: { type: Boolean, default: false },
     CreatedBy: { type: Schema.Types.ObjectId, ref: 'Teacher', required: true },

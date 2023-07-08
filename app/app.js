@@ -10,6 +10,7 @@ const YearGroupRouter = require('../routes/academics/yearGroup');
 const TeacherRouter = require('../routes/staff/teacherRouter');
 const ExamRouter = require('../routes/academics/examRouter');
 const StudentRouter = require('../routes/staff/studentRouter');
+const QuestionRouter = require('../routes/academics/questionRouter');
 const GlobalErrorHandlerMiddleware = require('../middlewares/GlobalErrorHandlerMiddleware');
 const Subject = require('../models/Academic/Subject');
 
@@ -30,6 +31,7 @@ app.use('/api/v1/year-groups', YearGroupRouter);
 app.use('/api/v1/teachers', TeacherRouter);
 app.use('/api/v1/exams', ExamRouter);
 app.use('/api/v1/students', StudentRouter);
+app.use('/api/v1/questions', QuestionRouter);
 
 
 // Error handling
