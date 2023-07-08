@@ -40,9 +40,31 @@ const getYourOwnProfile = AysncHandler(async (req, res) => {
   });
 });
 
+const index = AysncHandler(async (req, res) => {
+  const students = await Student.find({}).select('-password -createdAt -updatedAt -__v');
+  res.status(200).json({
+    message: "Students fetched successfully!",
+    status: "success",
+    data: students,
+  });
+});
+
+const show = AysncHandler(async (req, res) => {
+  const { id } = req.params;
+  const student = await Student.findById(id).select('-password -createdAt -updatedAt -__v');
+  if (!student) { return res.json({ message: "Student does not exist!" });};
+  res.status(200).json({
+    message: "Student profile fetched successfully!",
+    status: "success",
+    data: student,
+  });
+});
+
 
 module.exports = {
   register,
   login,
-  getYourOwnProfile
+  getYourOwnProfile,
+  index,
+  show
 };
