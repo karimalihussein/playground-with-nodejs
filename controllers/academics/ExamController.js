@@ -53,6 +53,63 @@ const index = AysncHandler(async (req, res) => {
     });    
 });
 
+const show = AysncHandler(async (req, res) => {
+    const exam = await Exam.findById(req.params.id).select("-__v -createdAt -updatedAt").populate("createdBy program subject classLevel academicYear academicTerm", "name");
+    if (!exam) { throw new Error("Exam not found"); }
+    res.status(200).json({
+        status: "success",
+        message: "Exam fetched successfully",
+        data: exam,
+    });
+});
+
+const update = AysncHandler(async (req, res) => {
+    const { id } = req.params;
+    const {
+        name,
+        description,
+        subject,
+        program,
+        duration,
+        examDate,
+        examTime,
+        examType,
+        classLevel,
+        academicYear,
+        academicTerm,
+    } = req.body;
+    const examUpdated = await Exam.findByIdAndUpdate(id, {
+        name,
+        description,
+        subject,
+        program,
+        duration,
+        examDate,
+        examTime,
+        examType,
+        classLevel,
+        academicYear,
+        academicTerm,
+    }, { new: true });
+    if (!examUpdated) { throw new Error("Exam not found"); }
+    res.status(200).json({
+        status: "success",
+        message: "Exam updated successfully",
+        data: examUpdated,
+    });
+});
 
 
-module.exports = { store, index };
+const destroy = AysncHandler(async (req, res) => {
+    const exam = await Exam.findByIdAndDelete(req.params.id);
+    if (!exam) { throw new Error("Exam not found"); }
+    res.status(200).json({
+        status: "success",
+        message: "Exam deleted successfully",
+        data: null,
+    });
+});
+
+
+
+module.exports = { store, index, show, update, destroy };

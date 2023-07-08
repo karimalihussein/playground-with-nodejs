@@ -29,7 +29,6 @@ const isTeacherLoggedIn = async (req, res, next) => {
         });
     }
     const user = await Teacher.findById(verify.id);
-    console.log(user);
     req.userAuth = user;
     next();
 };
