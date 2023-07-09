@@ -30,4 +30,10 @@ const index = AysncHandler(async (req, res) => {
     return res.json({ questions });
 });
 
-module.exports = { store, index };
+const show = AysncHandler(async (req, res) => {
+    const question = await Question.findById(req.params.id).populate("createdBy", "name");
+    if (!question) { return res.json({ message: "Question does not exist!" }); }
+    return res.json({ question });
+});
+
+module.exports = { store, index, show };
