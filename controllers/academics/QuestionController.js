@@ -9,6 +9,8 @@ const store = AysncHandler(async (req, res) => {
     const exam = await Exam.findById(req.params.examId);
     if (!teacher) { return res.json({ message: "Teacher does not exist!" }); };
     if (!exam) { return res.json({ message: "Exam does not exist!" }); };
+    const questionFound = await Question.findOne({ question });
+    if (questionFound) { return res.json({ message: "Question already exists!" }); };
     const questionCreated = await Question.create({
         question,
         optionA,
@@ -23,4 +25,9 @@ const store = AysncHandler(async (req, res) => {
     return res.json({ message: "Question created successfully!", questionCreated });
 });
 
-module.exports = { store };
+const index = AysncHandler(async (req, res) => {
+    const questions = await Question.find().populate("createdBy", "name");
+    return res.json({ questions });
+});
+
+module.exports = { store, index };
