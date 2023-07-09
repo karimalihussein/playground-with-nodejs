@@ -36,4 +36,20 @@ const show = AysncHandler(async (req, res) => {
     return res.json({ question });
 });
 
-module.exports = { store, index, show };
+const update = AysncHandler(async (req, res) => {
+    const { question, optionA, optionB, optionC, optionD, correctAnswer } = req.body;
+    const questionFound = await Question.findOne({ question });
+    if (questionFound && questionFound._id != req.params.id) { return res.json({ message: "Question already exists!" }); };
+    const questionUpdated = await Question.findByIdAndUpdate(req.params.id, {
+        question,
+        optionA,
+        optionB,
+        optionC,
+        optionD,
+        correctAnswer,
+    }, { new: true });
+    return res.json({ message: "Question updated successfully!", questionUpdated });
+});
+
+
+module.exports = { store, index, show, update };
