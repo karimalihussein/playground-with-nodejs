@@ -51,5 +51,10 @@ const update = AysncHandler(async (req, res) => {
     return res.json({ message: "Question updated successfully!", questionUpdated });
 });
 
+const destroy = AysncHandler(async (req, res) => {
+    const questionDeleted = await Question.findByIdAndDelete(req.params.id);
+    return res.json({ message: "Question deleted successfully!" });
+});
 
-module.exports = { store, index, show, update };
+
+module.exports = { store, index, show, update, destroy };
