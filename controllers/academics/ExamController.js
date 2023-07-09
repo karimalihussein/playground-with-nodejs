@@ -45,7 +45,13 @@ const store = AysncHandler(async (req, res) => {
 });
 
 const index = AysncHandler(async (req, res) => {
-    const exams = await Exam.find().select("-__v -createdAt -updatedAt").populate("createdBy program subject classLevel academicYear academicTerm", "name");
+    const exams = await Exam.find().select("-__v -createdAt -updatedAt").populate("createdBy program subject classLevel academicYear academicTerm", "name").populate({
+        path: "questions",
+        select: "-__v -createdAt -updatedAt",
+        populate: {
+            path: "createdBy",
+        },
+    });
     res.status(200).json({
         status: "success",
         message: "Exams fetched successfully",

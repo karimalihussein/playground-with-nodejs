@@ -9,7 +9,7 @@ const QuestionSchema = new Schema({
     optionD: { type: String, required: true },
     correctAnswer: { type: String, required: true },
     isCorrect: { type: Boolean, default: false },
-    CreatedBy: { type: Schema.Types.ObjectId, ref: 'Teacher', required: true },
+    createdBy: { type: Schema.Types.ObjectId, ref: 'Teacher', required: true },
 }, { timestamps: true });
 
 const Question = mongoose.model('Question', QuestionSchema);

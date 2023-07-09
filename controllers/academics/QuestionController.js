@@ -16,7 +16,7 @@ const store = AysncHandler(async (req, res) => {
         optionC,
         optionD,
         correctAnswer,
-        CreatedBy: teacher._id,
+        createdBy: teacher._id,
     });
     exam.questions.push(questionCreated._id);
     await exam.save();
