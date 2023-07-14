@@ -2,10 +2,10 @@
   "name": "lms",
   "version": "1.0.0",
   "description": "Task Manager System",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js",
-    "server": "nodemon app.js"
+    "start": "node server.js",
+    "server": "nodemon server.js"
   },
   "keywords": [
     "node",
