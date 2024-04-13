@@ -1,7 +1,0 @@
-/module/node_modules/
-/.vscode
-hello.js
-/node_modules/
-package-lock.json
-.env
-/logs/
